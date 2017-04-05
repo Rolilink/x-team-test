@@ -6,7 +6,7 @@ import store from './store';
 import App from './components/app';
 import fetchServer from './components/api';
 
-window.fetchServer = fetchServer;
+window.fetchServer = fetchServer; // #TODO: Remove this line
 
 ReactDOM.render(
   <Provider store={store}>
