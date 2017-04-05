@@ -1,21 +1,19 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux'
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
-class App extends Component {
+class App extends React.PureComponent {
+  static propTypes = {}
+
   render() {
-    return(
+    return (
       <div>
         Hello World
       </div>
-    )
+    );
   }
 }
 
-App.propTypes = {
+const mapStatesToProps = () => ({});
+const mapDispatchToProps = {};
 
-}
-
-const mapStatesToProps = (state) => ({})
-const mapDispatchToProps = {}
-
-export default connect(mapStatesToProps, mapDispatchToProps)(App)
+export default connect(mapStatesToProps, mapDispatchToProps)(App);

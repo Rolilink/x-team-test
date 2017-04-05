@@ -1,6 +1,6 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore } from 'redux';
 
 // Creates Store
-const store = createStore(() => {})
+const store = createStore(() => {});
 
-export default store
+export default store;
