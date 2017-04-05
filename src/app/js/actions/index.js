@@ -29,7 +29,7 @@ function createRandomAdID() {
   return Math.floor(Math.random() * 1000);
 }
 
-function getPaginationParams(page = 0, limit = 0, skip = 0) {
+function getPaginationParams(page = 1, limit = 0, skip = 0) {
   const skipParameter = page > 1 && skip > 0 ? `skip=${page * skip}` : '';
   const limitParameter = limit > 0 ? `limit=${limit}` : '';
   const url = '/api/products';
@@ -104,7 +104,7 @@ export function fetchFaces() {
   return (dispatch, getState) => {
     const state = getState();
     const { page, limit, skip } = state.pagination + 1; // Advances to next paginated request
-    const url = getPaginationParams(page, limit, skip)
+    const url = getPaginationParams(page, limit, skip);
 
     return fetchServer(url).then((data) => {
       return dispatch(addFaces(data.faces))
