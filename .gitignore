@@ -1,0 +1,11 @@
+# Logs
+npm-debug.log*
+
+# Linter Rules
+.eslintrc
+
+# Node Modules
+node_modules
+
+# Compiled Assets
+static/dist
