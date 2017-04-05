@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import App from './components/app';
-import api from './components/api';
+import fetchServer from './components/api';
 
-window.api = api;
+window.fetchServer = fetchServer;
 
 ReactDOM.render(
   <Provider store={store}>

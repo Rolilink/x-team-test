@@ -21,10 +21,8 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      "/api": { // redirect /api traffic to node X-Team app
-        target: "http://localhost:8000",
-        pathRewrite: {"^/api" : ""}
-      }
+      "/api": "http://localhost:8000",
+      "/ad": "http://localhost:8000",
     }
   },
   devtool: "cheap-module-eval-source-map",
