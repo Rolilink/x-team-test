@@ -1,5 +1,3 @@
-const ndjson = require('ndjson');
-
 const ENDPOINT = 'http://localhost:8080'; // Development Endpoint
 // const ENDPOINT = 'http://localhost:8000'; // Production Endpoint
 
@@ -8,7 +6,7 @@ function parseNDJSON(response) {
     response
       .text()
       .then((text) => {
-        const data = text.split("\n");
+        const data = text.split('\n');
         data.splice(-1);
 
         resolve(JSON.parse(`{ "data": [${data.join(',')}] }`));
@@ -28,6 +26,7 @@ export default function fetchServer(location, options = {}) {
     .then((response) => {
       if (response.status === 404) {
         console.log('404 error: ', response);
+        return new Promise((resolve, reject) => (reject({ error: '404 not found.' })));
       }
 
       const contentType = response.headers.get('content-type');
