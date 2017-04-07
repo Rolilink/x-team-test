@@ -10,7 +10,3 @@ describe('AdsActions#generateAd', () => {
   it("shouldn't generate two consecutive similar ads");
   it('should call createRandomAdID to generate ads');
 });
-
-describe('AdsActions#createRandomAdID', () => {
-  it('should return a random id');
-});

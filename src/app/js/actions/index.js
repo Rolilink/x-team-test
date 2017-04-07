@@ -1,19 +1,6 @@
 import _ from 'lodash';
 import fetchServer from '../components/api';
-
-/*
-  Actions Logic
-
-  We need actions to:
-    parse the server (only when we are not parsing) : MAYBE_FETCH_FACES
-    add faces : ADD_FACES
-    generate an ad : FETCH_AD
-    add ad: ADD_AD
-    set the pagination : SET_PAGE
-    set item range to show start : SET_VISIBLE_RANGE_START
-    set item range to show end : SET_VISIBLE_RANGE_END
-    set loaded all the records : SET_LOADED_ALL_RECORDS
-*/
+import { createRandomAdID, getPaginationParams, getUrlWithParams } from '../helpers';
 
 export const ADD_FACES = 'ADD_FACES';
 export const GENERATE_AD = 'GENERATE_AD';
@@ -21,33 +8,10 @@ export const ADD_AD = 'ADD_AD';
 export const SET_PAGE = 'SET_PAGE';
 export const SET_LIMIT = 'SET_LIMIT';
 export const SET_SKIP = 'SET_SKIP';
+export const SET_SORT = 'SET_SORT';
 // export const SET_VISIBLE_RANGE_START = 'SET_VISIBLE_RANGE_START';
 // export const SET_VISIBLE_RANGE_END = ' SET_VISIBLE_RANGE_END';
 // export const SET_LOADED_ALL_RECORDS = 'SET_LOADED_ALL_RECORDS';
-
-function createRandomAdID() {
-  return Math.floor(Math.random() * 1000);
-}
-
-function getPaginationParams(page = 1, limit = 0, skip = 0) {
-  const skipParameter = page > 1 && skip > 0 ? `skip=${page * skip}` : '';
-  const limitParameter = limit > 0 ? `limit=${limit}` : '';
-  const url = '/api/products';
-
-  if (skipParameter !== '' && limitParameter !== '') {
-    return `${url}?${limitParameter}&${skipParameter}`;
-  }
-
-  if (limitParameter !== '') {
-    return `${url}?${limitParameter}`;
-  }
-
-  if (skipParameter !== '') {
-    return `${url}?${skipParameter}`;
-  }
-
-  return url;
-}
 
 function addFaces(faces) {
   return {
@@ -60,6 +24,13 @@ function addAd(ad) {
   return {
     action: ADD_AD,
     ad,
+  };
+}
+
+export function setSort(field) {
+  return {
+    action: SET_SORT,
+    field,
   };
 }
 
@@ -104,7 +75,10 @@ export function fetchFaces() {
   return (dispatch, getState) => {
     const state = getState();
     const { page, limit, skip } = state.pagination + 1; // Advances to next paginated request
-    const url = getPaginationParams(page, limit, skip);
+    const paginationParams = getPaginationParams(page, limit, skip);
+    const sortParams = { sort: state.sort.field };
+    const params = { ...paginationParams, sort: sortParams.sort };
+    const url = getUrlWithParams('/api/products', params);
 
     return fetchServer(url).then((data) => {
       return dispatch(addFaces(data.faces))
