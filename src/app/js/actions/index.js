@@ -13,37 +13,37 @@ export const SET_SORT = 'SET_SORT';
 // export const SET_VISIBLE_RANGE_END = ' SET_VISIBLE_RANGE_END';
 // export const SET_LOADED_ALL_RECORDS = 'SET_LOADED_ALL_RECORDS';
 
-function addFaces(faces) {
+export function addFaces(faces) {
   return {
-    action: ADD_FACES,
+    type: ADD_FACES,
     faces,
   };
 }
 
-function addAd(ad) {
+export function addAd(ad) {
   return {
-    action: ADD_AD,
+    type: ADD_AD,
     ad,
   };
 }
 
 export function setSort(field) {
   return {
-    action: SET_SORT,
+    type: SET_SORT,
     field,
   };
 }
 
 export function setPage(page) {
   return {
-    action: SET_PAGE,
+    type: SET_PAGE,
     page,
   };
 }
 
 export function setLimit(limit) {
   return {
-    action: SET_LIMIT,
+    type: SET_LIMIT,
     limit,
   };
 }
@@ -51,7 +51,7 @@ export function setLimit(limit) {
 
 export function setSkip(skip) {
   return {
-    action: SET_SKIP,
+    type: SET_SKIP,
     skip,
   };
 }
@@ -61,13 +61,14 @@ export function generateAd() {
     const state = getState();
     const { ads } = state;
     const lastAd = _.last(ads);
+
     let newAd = createRandomAdID();
 
     while (newAd === lastAd) {
       newAd = createRandomAdID();
     }
 
-    dispatch(addAd(newAd));
+    return dispatch(addAd(newAd));
   };
 }
 
