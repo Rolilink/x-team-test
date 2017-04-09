@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { fetchServer } from '../components/api';
 import { createRandomAdID, getPaginationParams, getUrlWithParams } from '../helpers';
 
+export const SET_FETCH_FACES = 'SET_FETCH_FACES';
 export const ADD_FACES = 'ADD_FACES';
 export const GENERATE_AD = 'GENERATE_AD';
 export const ADD_AD = 'ADD_AD';
@@ -12,6 +13,13 @@ export const SET_SORT = 'SET_SORT';
 // export const SET_VISIBLE_RANGE_START = 'SET_VISIBLE_RANGE_START';
 // export const SET_VISIBLE_RANGE_END = ' SET_VISIBLE_RANGE_END';
 // export const SET_LOADED_ALL_RECORDS = 'SET_LOADED_ALL_RECORDS';
+
+export function setFetchFaces(isFetching) {
+  return {
+    type: SET_FETCH_FACES,
+    isFetching,
+  };
+}
 
 export function addFaces(faces) {
   return {
@@ -81,10 +89,12 @@ export function fetchFaces() {
     const sortParams = { sort: state.sort.field };
     const params = { ...paginationParams, sort: sortParams.sort };
     const url = getUrlWithParams('/api/products', params);
+    dispatch(setFetchFaces(true));
 
     return fetchServer(url).then((response) => {
       dispatch(addFaces(response.data));
       dispatch(setPage(page + 1));
+      dispatch(setFetchFaces(false));
     });
   };
 }
@@ -92,7 +102,7 @@ export function fetchFaces() {
 export function maybeFetchFaces() {
   return (dispatch, getState) => {
     const state = getState();
-    console.log(fetchFaces.restore);
+
     if (!state.faces.isFetching) {
       return dispatch(fetchFaces());
     }
