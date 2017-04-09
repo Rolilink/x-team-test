@@ -1,14 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 
 
-export default class EndRow extends React.PureComponent {
-  static propTypes = {}
-
+export default class EndRow extends PureComponent {
   render() {
     return (
-      <div>
-        EndRow
-      </div>
+      <tr className="end-row">
+        <td colSpan="4" className="text-center">~ end of catalogue ~</td>
+      </tr>
     );
   }
 }

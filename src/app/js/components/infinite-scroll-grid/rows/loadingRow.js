@@ -1,14 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 
 
 export default class LoadingRow extends React.PureComponent {
-  static propTypes = {}
-
   render() {
     return (
-      <div>
-        LoadingRow
-      </div>
+      <tr className="loading-row">
+        <td colSpan="4" className="text-center">loading...</td>
+      </tr>
     );
   }
 }

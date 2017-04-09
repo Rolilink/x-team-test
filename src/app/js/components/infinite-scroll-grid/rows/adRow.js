@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 
 
-export default class AdRow extends React.PureComponent {
+export default class AdRow extends PureComponent {
   static propTypes = {
     id: PropTypes.number.isRequired,
   }

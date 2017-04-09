@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import moment from 'moment';
 
-export default class FaceRow extends React.PureComponent {
+export default class FaceRow extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
@@ -25,7 +25,6 @@ export default class FaceRow extends React.PureComponent {
   get formattedDate() {
     const now = moment();
     const date = moment(this.props.date);
-    const difference = now.diff(date, 'hour')
 
     if (now.diff(date, 'days') >= 7) {
       return date.format('MMMM Do YYYY');
