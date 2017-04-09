@@ -1,7 +1,7 @@
 const ENDPOINT = 'http://localhost:8080'; // Development Endpoint
 // const ENDPOINT = 'http://localhost:8000'; // Production Endpoint
 
-function parseNDJSON(response) {
+export function parseNDJSON(response) {
   return new Promise((resolve, reject) => {
     response
       .text()
@@ -17,7 +17,7 @@ function parseNDJSON(response) {
   });
 }
 
-export default function fetchServer(location, options = {}) {
+export function fetchServer(location, options = {}) {
   const httpOptions = {
     ...options,
   };

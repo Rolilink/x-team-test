@@ -32,7 +32,7 @@ describe('AdsActions#generateAd', () => {
     helpers.createRandomAdID.restore();
   });
 
-  it('should eventually dispatch addAd', () => {
+  it('should dispatch addAd', () => {
     const expectedActions = [expectedAction];
     const store = mockStore({ ads: [] }); // creates a store mock with empty ads
     sinon.stub(helpers, 'createRandomAdID').returns(23);

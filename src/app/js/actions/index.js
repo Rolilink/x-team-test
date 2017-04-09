@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import fetchServer from '../components/api';
+import { fetchServer } from '../components/api';
 import { createRandomAdID, getPaginationParams, getUrlWithParams } from '../helpers';
 
 export const ADD_FACES = 'ADD_FACES';
@@ -75,17 +75,16 @@ export function generateAd() {
 export function fetchFaces() {
   return (dispatch, getState) => {
     const state = getState();
-    const { page, limit, skip } = state.pagination + 1; // Advances to next paginated request
-    const paginationParams = getPaginationParams(page, limit, skip);
+    const { page, limit, skip } = state.pagination; // Advances to next paginated request
+    const nextPage = page + 1;
+    const paginationParams = getPaginationParams(nextPage, limit, skip);
     const sortParams = { sort: state.sort.field };
     const params = { ...paginationParams, sort: sortParams.sort };
     const url = getUrlWithParams('/api/products', params);
 
-    return fetchServer(url).then((data) => {
-      return dispatch(addFaces(data.faces))
-      .then(() => {
-        dispatch(setPage(page));
-      });
+    return fetchServer(url).then((response) => {
+      dispatch(addFaces(response.data));
+      dispatch(setPage(page + 1));
     });
   };
 }
@@ -93,7 +92,7 @@ export function fetchFaces() {
 export function maybeFetchFaces() {
   return (dispatch, getState) => {
     const state = getState();
-
+    console.log(fetchFaces.restore);
     if (!state.faces.isFetching) {
       return dispatch(fetchFaces());
     }
