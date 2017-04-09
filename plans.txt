@@ -1,11 +1,9 @@
 <App> // Is the App Wrapper and maintains the top most configuration and initialization
   <Header/> // have the title and description of the website
   <InfiniteScrollGrid>  // contains the list rendering logic and manage list state (what to show and what not to show)
-    <GridHeader/> // Manages Sorting
-    <GridContainer> // act as designed container, have multiple rows
-      <GridRow> // it renders an ad or item, it is responsible of key managing
-        <AdRow /> || <FaceRow/> || <LoadingRow/> || <EndRow /> (Ad -> renders an ad, FaceRow -> renders face row, LoadingRow -> renders loading)
-      </GridRow>
+    <GridHeader/> // Manages Sorting is a table header
+    <GridContainer> // act as table body container, have multiple rows
+      <AdRow /> || <FaceRow/> || <LoadingRow/> || <EndRow /> (Ad -> renders an ad, FaceRow -> renders face row, LoadingRow -> renders loading)
     </GridContainer>
   </InfiniteScrollGrid>
 </App>
@@ -30,13 +28,10 @@
 ### GridContainer ###
   Just renders childrens and the markup of the inside body
 
-### GridRow ###
-  Again just a container it manages react key logic ad-row-[id], face-row-[id] and loading-row
-
 ### AdRow ###
   A row with an AD
 
-### FaceRow ###
+### FaceRow ### DONE
   A row with a Face and the 3 fields size, price and date
 
 ### LoadingRow ###
