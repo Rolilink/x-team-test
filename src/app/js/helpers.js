@@ -1,7 +1,7 @@
 import queryString from 'querystring';
 
-export function getPaginationParams(page = 1, limit = 0, skip = 0) {
-  const skipParameter = page > 1 && skip > 0 ? page * skip : undefined;
+export function getPaginationParams(page = 1, limit = 0) {
+  const skipParameter = page > 1 && limit > 0 ? page * limit : undefined;
   const limitParameter = limit > 0 ? limit : undefined;
 
   return {

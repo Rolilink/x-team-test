@@ -83,9 +83,9 @@ export function generateAd() {
 export function fetchFaces() {
   return (dispatch, getState) => {
     const state = getState();
-    const { page, limit, skip } = state.pagination; // Advances to next paginated request
+    const { page, limit } = state.pagination; // Advances to next paginated request
     const nextPage = page + 1;
-    const paginationParams = getPaginationParams(nextPage, limit, skip);
+    const paginationParams = getPaginationParams(nextPage, limit);
     const sortParams = { sort: state.sort.field };
     const params = { ...paginationParams, sort: sortParams.sort };
     const url = getUrlWithParams('/api/products', params);
