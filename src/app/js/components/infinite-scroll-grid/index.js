@@ -47,26 +47,37 @@ class InfiniteScrollGrid extends Component {
     return window.scrollY + window.innerHeight;
   }
 
-  get isBottomOfTheDocument() {
-    return this.verticalScroll + 200 > this.documentHeight
+  get isDocumentBottom() {
+    return this.verticalScroll + 100 > this.documentHeight
+  }
+
+  get allFacesVisible() {
+    return this.props.visibleFaces.length === this.props.faces.length;
   }
 
   onScrollDown() {
     this.fetchAndMaybeShowFaces();
   }
 
+  onEndOfDocument() {
+    console.log('end of document');
+    // show next batch if not fetch and show next batch
+    if (!this.allFacesVisible) {
+      this.props.showNextFaces();
+    } else {
+      this.fetchAndMaybeShowFaces();
+    }
+  }
+
   fetchAndMaybeShowFaces() {
     this.props.maybeFetchFaces().then(() => {
-        this.props.showNextFaces();
+        this.maybeShowNextFaces();
     });
   }
 
-  onEndOfDocument() {
-    this.fetchAndMaybeShowFaces();
-  }
-
   maybeShowNextFaces() {
-    if (this.props.visibleFaces.length > this.props.faces.length) {
+    if (!this.allFacesVisible && this.isDocumentBottom) {
+      console.log('end of document');
       this.props.showNextFaces();
     }
   }
@@ -76,8 +87,8 @@ class InfiniteScrollGrid extends Component {
       this.onScrollDown();
     }
 
-    // when we are 100px short of the end of the document trigger onEndOfDocument
-    if (this.isBottomOfTheDocument) {
+    // when we are 200px short of the end of the document trigger onEndOfDocument
+    if (this.isDocumentBottom) {
       this.onEndOfDocument();
     }
     this.lastVerticalScroll = this.verticalScroll;

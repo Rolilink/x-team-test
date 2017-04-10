@@ -93,11 +93,11 @@ export function showNextFaces() {
     const { faces, fetchedAllFaces } = state.faces;
     const { limit, page } = state.listPagination;
     const nextPage = page + 1;
-    const skip = nextPage > 1 ? nextPage * limit : 0;
+    const skip = nextPage > 1 ? page * limit : 0;
 
     const nextFaces = _.chain(faces).map(face => face.id).slice(skip, skip + limit).value();
 
-    if (!fetchedAllFaces && nextFaces.length > 0) {
+    if (nextFaces.length > 0) {
       dispatch(setListPage(nextPage));
       return dispatch(addFacesToList(nextFaces));
     }
