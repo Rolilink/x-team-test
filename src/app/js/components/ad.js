@@ -1,7 +1,7 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 
-export default class Ad extends PureComponent {
+export default class Ad extends Component {
   get adSrc() {
     return '/ad/?r=653';
   }

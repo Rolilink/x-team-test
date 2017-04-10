@@ -8,17 +8,18 @@ import FaceRow from './rows/faceRow';
 import AdRow from './rows/adRow';
 import EndRow from './rows/endRow';
 import LoadingRow from './rows/loadingRow';
-import { maybeFetchFaces } from '../../actions';
+import { maybeFetchFaces, showNextFaces } from '../../actions';
 
 class InfiniteScrollGrid extends Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
     faces: PropTypes.array.isRequired,
+    showNextFaces: PropTypes.func.isRequired,
     maybeFetchFaces: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
-    this.props.maybeFetchFaces();
+    this.fetchAndMaybeShowFaces();
     this.setupScrollHandler();
   }
 
@@ -28,11 +29,7 @@ class InfiniteScrollGrid extends Component {
 
   setupScrollHandler() {
     this.lastVerticalScroll = this.verticalScroll;
-    this.scrollListener = window.addEventListener('scroll', this.handleScroll.bind(this));
-  }
-
-  removeScrollHandler() {
-
+    window.addEventListener('scroll', this.handleScroll.bind(this));
   }
 
   get documentHeight() {
@@ -50,27 +47,40 @@ class InfiniteScrollGrid extends Component {
     return window.scrollY + window.innerHeight;
   }
 
+  get isBottomOfTheDocument() {
+    return this.verticalScroll + 200 > this.documentHeight
+  }
+
   onScrollDown() {
-    this.props.maybeFetchFaces();
+    this.fetchAndMaybeShowFaces();
+  }
+
+  fetchAndMaybeShowFaces() {
+    this.props.maybeFetchFaces().then(() => {
+        this.props.showNextFaces();
+    });
   }
 
   onEndOfDocument() {
-    console.log('end of document');
+    this.fetchAndMaybeShowFaces();
+  }
+
+  maybeShowNextFaces() {
+    if (this.props.visibleFaces.length > this.props.faces.length) {
+      this.props.showNextFaces();
+    }
   }
 
   handleScroll() {
-    const documentHeight = this.documentHeight;
-    const verticalScroll = this.verticalScroll;
-
     if (this.verticalScroll - this.lastVerticalScroll > 0) {
       this.onScrollDown();
     }
 
     // when we are 100px short of the end of the document trigger onEndOfDocument
-    if (verticalScroll + 100 > documentHeight) {
+    if (this.isBottomOfTheDocument) {
       this.onEndOfDocument();
     }
-    this.lastVerticalScroll = verticalScroll;
+    this.lastVerticalScroll = this.verticalScroll;
   }
 
   get gridItems() {
@@ -78,8 +88,10 @@ class InfiniteScrollGrid extends Component {
     let facesCount = 0;
 
     _.each(this.props.faces, (face) => {
-      rows.push(<FaceRow {...face} key={`face-row-${face.id}`}/>);
-      facesCount++;
+      if (_.includes(this.props.visibleFaces, face.id)) {
+        rows.push(<FaceRow {...face} key={`face-row-${face.id}`} />);
+        facesCount++;
+      }
 
       if (facesCount === 20) {
         rows.push(<AdRow />);
@@ -89,10 +101,11 @@ class InfiniteScrollGrid extends Component {
 
     if (this.props.isFetching) {
       rows.push(<LoadingRow />);
+      return rows;
     }
 
-    if (this.props.allFacesFetched) {
-      row.push(<EndRow />);
+    if (this.props.fetchedAllFaces) {
+      rows.push(<EndRow />);
     }
 
     return rows;
@@ -111,15 +124,17 @@ class InfiniteScrollGrid extends Component {
 }
 
 const mapStatesToProps = (state) => {
-  const { faces, isFetching } = state.faces;
+  const { faces, isFetching, visibleFaces, fetchedAllFaces } = state.faces;
 
   return {
     faces,
+    visibleFaces,
     isFetching,
+    fetchedAllFaces,
   };
 };
 const mapDispatchToProps = {
-  maybeFetchFaces,
+  maybeFetchFaces, showNextFaces,
 };
 
 export default connect(mapStatesToProps, mapDispatchToProps)(InfiniteScrollGrid);

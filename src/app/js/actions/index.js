@@ -4,6 +4,8 @@ import { createRandomAdID, getPaginationParams, getUrlWithParams } from '../help
 
 export const SET_FETCH_FACES = 'SET_FETCH_FACES';
 export const ADD_FACES = 'ADD_FACES';
+export const ADD_FACES_TO_LIST = 'ADD_FACES_TO_LIST';
+export const SET_FETCHED_ALL_FACES = 'SET_FETCHED_ALL_FACES';
 export const GENERATE_AD = 'GENERATE_AD';
 export const ADD_AD = 'ADD_AD';
 export const SET_SERVER_PAGE = 'SET_SERVER_PAGE';
@@ -22,9 +24,23 @@ export function setFetchFaces(isFetching) {
   };
 }
 
+export function setFetchedAllFaces(fetchedAllFaces) {
+  return {
+    type: SET_FETCHED_ALL_FACES,
+    fetchedAllFaces,
+  };
+}
+
 export function addFaces(faces) {
   return {
     type: ADD_FACES,
+    faces,
+  };
+}
+
+export function addFacesToList(faces) {
+  return {
+    type: ADD_FACES_TO_LIST,
     faces,
   };
 }
@@ -57,6 +73,37 @@ export function setLimit(limit) {
   };
 }
 
+export function setListPage(page) {
+  return {
+    type: SET_LIST_PAGE,
+    page,
+  };
+}
+
+export function setListLimit(limit) {
+  return {
+    type: SET_LIST_LIMIT,
+    limit,
+  };
+}
+
+export function showNextFaces() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { faces, fetchedAllFaces } = state.faces;
+    const { limit, page } = state.listPagination;
+    const nextPage = page + 1;
+    const skip = nextPage > 1 ? nextPage * limit : 0;
+
+    const nextFaces = _.chain(faces).map(face => face.id).slice(skip, skip + limit).value();
+
+    if (!fetchedAllFaces && nextFaces.length > 0) {
+      dispatch(setListPage(nextPage));
+      return dispatch(addFacesToList(nextFaces));
+    }
+  };
+}
+
 export function generateAd() {
   return (dispatch, getState) => {
     const state = getState();
@@ -85,9 +132,14 @@ export function fetchFaces() {
     dispatch(setFetchFaces(true));
 
     return fetchServer(url).then((response) => {
-      dispatch(addFaces(response.data));
-      dispatch(setPage(page + 1));
-      dispatch(setFetchFaces(false));
+      if (response.data.length > 0) {
+        dispatch(addFaces(response.data));
+        dispatch(setPage(page + 1));
+        dispatch(setFetchFaces(false));
+      } else {
+        dispatch(setFetchFaces(false));
+        dispatch(setFetchedAllFaces(true));
+      }
     });
   };
 }

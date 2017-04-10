@@ -7,6 +7,8 @@ export const initialState = {
   faces: {
     isFetching: false,
     faces: [],
+    visibleFaces: [],
+    fetchedAllFaces: false,
   },
   sort: {
     field: 'id',
@@ -32,6 +34,10 @@ export function faces(facesState, action) {
       return { ...facesState, isFetching: action.isFetching };
     case actions.ADD_FACES:
       return { ...facesState, faces: [...facesState.faces, ...action.faces] };
+    case actions.ADD_FACES_TO_LIST:
+      return { ...facesState, visibleFaces: [...facesState.visibleFaces, ...action.faces] };
+    case actions.SET_FETCHED_ALL_FACES:
+      return { ...facesState, fetchedAllFaces: action.fetchedAllFaces };
     default:
       return facesState;
   }
@@ -91,6 +97,8 @@ export function app(state = initialState, action) {
     // Faces Actions
     case actions.SET_FETCH_FACES:
     case actions.ADD_FACES:
+    case actions.ADD_FACES_TO_LIST:
+    case actions.SET_FETCHED_ALL_FACES:
       return { ...state, faces: faces(state.faces, action) };
     // Ads Actions
     case actions.ADD_AD:
@@ -102,7 +110,7 @@ export function app(state = initialState, action) {
     // List Pagination Actions
     case actions.SET_LIST_PAGE:
     case actions.SET_LIST_LIMIT:
-      return { ...state, pagination: pagination(state.listPagination, action) };
+      return { ...state, listPagination: listPagination(state.listPagination, action) };
     // Sort Actions
     case actions.SET_SORT:
       return { ...state, sort: sort(state.sort, action) };
