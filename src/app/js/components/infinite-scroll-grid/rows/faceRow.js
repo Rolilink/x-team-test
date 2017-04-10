@@ -4,10 +4,10 @@ import moment from 'moment';
 export default class FaceRow extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    face: PropTypes.string.isRequired,
     size: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,
-    date: React.PropTypes.instanceOf(Date).isRequired,
+    date: React.PropTypes.string.isRequired,
   }
 
   get key() {
@@ -36,7 +36,7 @@ export default class FaceRow extends PureComponent {
   render() {
     return (
       <tr className="face-row" key={this.key}>
-        <td className="face-field" style={{ fontSize: this.fontSize }}>{this.props.text}</td>
+        <td className="face-field" style={{ fontSize: this.fontSize }}>{this.props.face}</td>
         <td className="size-field">{this.fontSize}</td>
         <td className="price-field">{this.priceInDollars}</td>
         <td className="date-field">{this.formattedDate}</td>

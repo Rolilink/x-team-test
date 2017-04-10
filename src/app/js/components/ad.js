@@ -2,12 +2,8 @@ import React, { PureComponent, PropTypes } from 'react';
 
 
 export default class Ad extends PureComponent {
-  static propTypes = {
-    id: PropTypes.number.isRequired,
-  }
-
   get adSrc() {
-    return `/ad/?r=${this.props.id}`;
+    return '/ad/?r=653';
   }
 
   render() {

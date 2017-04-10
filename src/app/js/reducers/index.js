@@ -12,7 +12,11 @@ export const initialState = {
     field: 'id',
   },
   pagination: {
-    limit: 20,
+    limit: 25,
+    page: 0,
+  },
+  listPagination: {
+    limit: 25,
     page: 0,
   },
   ads: {
@@ -87,7 +91,7 @@ export function app(state = initialState, action) {
     // Faces Actions
     case actions.SET_FETCH_FACES:
     case actions.ADD_FACES:
-      return { ...state, faces: faces(state, action) };
+      return { ...state, faces: faces(state.faces, action) };
     // Ads Actions
     case actions.ADD_AD:
       return { ...state, ads: ads(state.ads, action) };
