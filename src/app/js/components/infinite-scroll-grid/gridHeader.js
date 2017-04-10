@@ -6,9 +6,14 @@ export default class GridHeader extends React.PureComponent {
 
   render() {
     return (
-      <div>
-        GridHeader
-      </div>
+      <thead>
+        <tr>
+          <th>Face</th>
+          <th>Size</th>
+          <th>Cost</th>
+          <th>Date Added</th>
+        </tr>
+      </thead>
     );
   }
 }

@@ -1,14 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 
 
-export default class GridContainer extends React.PureComponent {
-  static propTypes = {}
-
+export default class GridContainer extends PureComponent {
   render() {
     return (
-      <div>
-        GridContainer
-      </div>
+      <tbody>
+        {this.props.children}
+      </tbody>
     );
   }
 }

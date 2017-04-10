@@ -17,11 +17,4 @@ describe('<AdRow/>', () => {
   it('should have a class ad-row', () => {
     expect(wrapper).to.have.className('ad-row');
   });
-
-  it('should render an ad image', () => {
-    const image = wrapper.find('.ad');
-
-    expect(image).to.have.tagName('img');
-    expect(image).to.have.prop('src', '/ad/?r=232');
-  });
 });
