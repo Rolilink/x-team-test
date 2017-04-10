@@ -44,15 +44,27 @@ export function sort(sortState, action) {
   }
 }
 
-// Reducer for pagination actions modifies state.pagination
+// Reducer for server pagination actions modifies state.pagination
 export function pagination(paginationState, action) {
   switch (action.type) {
-    case actions.SET_LIMIT:
+    case actions.SET_SERVER_LIMIT:
       return { ...paginationState, limit: action.limit };
-    case actions.SET_PAGE:
+    case actions.SET_SERVER_PAGE:
       return { ...paginationState, page: action.page };
     default:
       return paginationState;
+  }
+}
+
+// Reducer for client side pagination modifies state.listPagination
+export function listPagination(listPaginationState, action) {
+  switch (action.type) {
+    case actions.SET_LIST_LIMIT:
+      return { ...listPaginationState, limit: action.limit };
+    case actions.SET_LIST_PAGE:
+      return { ...listPaginationState, page: action.page };
+    default:
+      return listPaginationState;
   }
 }
 
@@ -79,10 +91,14 @@ export function app(state = initialState, action) {
     // Ads Actions
     case actions.ADD_AD:
       return { ...state, ads: ads(state.ads, action) };
-    // Pagination Actions
-    case actions.SET_PAGE:
-    case actions.SET_LIMIT:
-      return { ...state, pagination: pagination(state.pagination, action) };
+    // Server Pagination Actions
+    case actions.SET_SERVER_PAGE:
+    case actions.SET_SERVER_LIMIT:
+      return { ...state, pagination: pagination(state.listPagination, action) };
+    // List Pagination Actions
+    case actions.SET_LIST_PAGE:
+    case actions.SET_LIST_LIMIT:
+      return { ...state, pagination: pagination(state.listPagination, action) };
     // Sort Actions
     case actions.SET_SORT:
       return { ...state, sort: sort(state.sort, action) };

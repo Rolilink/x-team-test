@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 const ENDPOINT = 'http://localhost:8080'; // Development Endpoint
 // const ENDPOINT = 'http://localhost:8000'; // Production Endpoint
 

@@ -3,24 +3,24 @@ import * as reducers from '../../src/app/js/reducers';
 import * as actions from '../../src/app/js/actions';
 
 describe('reducers/pagination', () => {
-  it('should handle SET_PAGE', () => {
+  it('should handle ', () => {
     const { initialState } = reducers;
     const expectedState = { ...initialState.pagination, page: 1 };
 
     const action = {
-      type: actions.SET_PAGE,
+      type: actions.SET_SERVER_PAGE,
       page: 1,
     };
 
     expect(reducers.pagination(initialState.pagination, action)).to.be.deep.equal(expectedState);
   });
 
-  it('should handle SET_LIMIT', () => {
+  it('should handle SET_SERVER_LIMIT', () => {
     const { initialState } = reducers;
     const expectedState = { ...initialState.pagination, limit: 10 };
 
     const action = {
-      type: actions.SET_LIMIT,
+      type: actions.SET_SERVER_LIMIT,
       limit: 10,
     };
 

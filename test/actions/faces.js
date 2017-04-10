@@ -57,7 +57,7 @@ describe('FacesActions#fetchFaces', () => {
       pagination: { ...initialState.pagination, page: 1 },
     });
     const paginationAction = {
-      type: actions.SET_PAGE,
+      type: actions.SET_SERVER_PAGE,
       page: 2,
     };
 

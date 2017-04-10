@@ -6,9 +6,10 @@ export const SET_FETCH_FACES = 'SET_FETCH_FACES';
 export const ADD_FACES = 'ADD_FACES';
 export const GENERATE_AD = 'GENERATE_AD';
 export const ADD_AD = 'ADD_AD';
-export const SET_PAGE = 'SET_PAGE';
-export const SET_LIMIT = 'SET_LIMIT';
-export const SET_SKIP = 'SET_SKIP';
+export const SET_SERVER_PAGE = 'SET_SERVER_PAGE';
+export const SET_SERVER_LIMIT = 'SET_SERVER_LIMIT';
+export const SET_LIST_PAGE = 'SET_LIST_PAGE';
+export const SET_LIST_LIMIT = 'SET_LIST_LIMIT';
 export const SET_SORT = 'SET_SORT';
 // export const SET_VISIBLE_RANGE_START = 'SET_VISIBLE_RANGE_START';
 // export const SET_VISIBLE_RANGE_END = ' SET_VISIBLE_RANGE_END';
@@ -44,23 +45,15 @@ export function setSort(field) {
 
 export function setPage(page) {
   return {
-    type: SET_PAGE,
+    type: SET_SERVER_PAGE,
     page,
   };
 }
 
 export function setLimit(limit) {
   return {
-    type: SET_LIMIT,
+    type: SET_SERVER_LIMIT,
     limit,
-  };
-}
-
-
-export function setSkip(skip) {
-  return {
-    type: SET_SKIP,
-    skip,
   };
 }
 
