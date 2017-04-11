@@ -1,7 +1,5 @@
 /*
  *  #TODO: tests missing for the reducers
- *  this module exposes a small wrapper around the fetch API, to fetch the server
- *  for records and parse the response based on its content-type
  */
 
 import * as actions from '../actions';
