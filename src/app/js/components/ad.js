@@ -22,10 +22,10 @@ const mapStatesToProps = (state) => {
   return {
     ad: state.ads.lastAd,
   }
-}
+};
 
 const mapDispatchToProps = {
   generateAd,
-}
+};
 
 export default connect(mapStatesToProps, mapDispatchToProps)(Ad);
