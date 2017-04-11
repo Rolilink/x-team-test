@@ -21,7 +21,7 @@ export function parseNDJSON(response) {
         const json = JSON.parse(`{ "data": [${data.join(',')}] }`);
 
         // resolve with the records inside a javascript object
-        resolve(JSON.parse(json));
+        resolve(json);
       })
       .catch((err) => {
         reject(err);

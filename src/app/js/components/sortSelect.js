@@ -3,11 +3,11 @@
  *  Smart component responsible for switching the sort state of the app it calls
  *  changeSort when the select changes to dispatch a change in the sort field
  */
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { changeSort } from '../actions';
 
-class SortSelect extends Component {
+class SortSelect extends PureComponent {
   static propTypes = {
     changeSort: PropTypes.func.isRequired,
   }
@@ -30,7 +30,7 @@ class SortSelect extends Component {
   }
 }
 
-const mapStatesToProps = state => ({ field: state.sort.field, isFetching: state.faces.isFetching });
+const mapStatesToProps = () => ({});
 
 const mapDispatchToProps = {
   changeSort,

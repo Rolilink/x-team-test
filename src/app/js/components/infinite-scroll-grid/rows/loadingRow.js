@@ -3,10 +3,10 @@
  *  A simple row component that is shown when loading records.
  */
 
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 
-export default class LoadingRow extends React.PureComponent {
+export default class LoadingRow extends PureComponent {
   render() {
     return (
       <tr className="loading-row">
