@@ -20,15 +20,6 @@ export const SET_SORT = 'SET_SORT';
 export const RESET_SERVER_PAGINATION_STATE = 'RESET_PAGINATION_STATE';
 export const RESET_FACES_STATE = 'RESET_FACES_STATE';
 export const RESET_LIST_PAGINATION_STATE = 'RESET_LIST_PAGINATION_STATE';
-export const INVALIDATE_NETWORK = 'INVALIDATE_NETWORK';
-
-// invalidates the network requests, so responses will not be added to the list.
-export function invalidateNetwork(invalidated) {
-  return {
-    type: INVALIDATE_NETWORK,
-    invalidated,
-  };
-}
 
 // resets the servers pagination to its initial state with page = 0
 export function resetServerPaginationState() {
@@ -131,22 +122,6 @@ export function setListLimit(limit) {
   };
 }
 
-// It sends a promise that gets resolved when faces.isFetching changes to false
-export function whenIsNotFetching(getState) {
-  return new Promise((resolve) => {
-    let isFetching = true;
-    const interval = setInterval(() => {
-      const state = getState();
-      isFetching = state.faces.isFetching;
-
-      if (!isFetching) {
-        resolve(isFetching);
-        clearInterval(interval);
-      }
-    }, 200);
-  });
-}
-
 // Handle pagination on the client side of the app, it shows "the next batch of faces"
 // that are prefetched while scrolling but that aren't shown until we reach the end of
 // the document
@@ -164,7 +139,7 @@ export function showNextFaces() {
     // when there are faces to show dispatch addFacesToList to show them.
     if (nextFaces.length > 0) {
       dispatch(setListPage(nextPage));
-      return dispatch(addFacesToList(nextFaces));
+      dispatch(addFacesToList(nextFaces));
     }
   };
 }
@@ -212,27 +187,26 @@ export function fetchFaces() {
 
     // set faces.isFetching to true before fetching data from the server
     dispatch(setIsFetchingFaces(true));
-
     return fetchServer(url).then((response) => {
-      const { isNetworkInvalidated } = getState();
+      const currentState = getState();
+      const currentSort = currentState.sort.field;
+      const requestSort = state.sort.field;
 
-      // when server request is completed and network is invalidated set the
-      // request as completed by dispatching setIsFetchingFaces(false),
-      // when network is invalidated it doesn't add faces to the state.
-      if (isNetworkInvalidated) {
-        return dispatch(setIsFetchingFaces(false));
+      // Api is not fetching data so lets set fetchingFaces to false
+      dispatch(setIsFetchingFaces(false));
+
+      // when data fetch is completed and the sorting state has changed
+      // don't append fetched data to the state
+      if (currentSort !== requestSort) {
+        return;
       }
 
       if (response.data.length > 0) {
-        // when data is returned add faces to the array, changes the page and
-        // sets faces.isFetching to false
+        // when data is returned add faces to the array and change the page
         dispatch(addFaces(response.data));
         dispatch(setPage(page + 1));
-        dispatch(setIsFetchingFaces(false));
       } else {
-        // when there are no more records to return set faces.isFetching to false
-        // and set faces.fetchedAllFaces to true
-        dispatch(setIsFetchingFaces(false));
+        // when there are no more records to return set faces.fetchedAllFaces to true
         dispatch(setFetchedAllFaces(true));
       }
     });
@@ -258,24 +232,14 @@ export function changeSort(newField) {
       return;
     }
 
-    // Set the app state on fetching to avoid new fetch actions and shows FetchRow.
+    // change sort field
+    dispatch(setSort(newField));
+
+    // Resets
     dispatch(resetFacesState());
-    dispatch(invalidateNetwork(true));
+    resetListState(dispatch);
 
-    // first wait that faces fetching state changes
-    whenIsNotFetching(getState).then(() => {
-      // when fetching is false reset app state
-      dispatch(invalidateNetwork(false));
-      resetListState(dispatch);
-
-      // change sort field
-      dispatch(setSort(newField));
-
-      // fetch faces and show them immediatly
-      return dispatch(fetchFaces()).then(() => {
-        dispatch(showNextFaces());
-      });
-    });
+    dispatch(fetchFaces()).then(() => dispatch(showNextFaces()));
   };
 }
 

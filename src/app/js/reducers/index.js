@@ -126,8 +126,6 @@ export function app(state = initialState, action) {
     // Sort Actions
     case actions.SET_SORT:
       return { ...state, sort: sort(state.sort, action) };
-    case actions.INVALIDATE_NETWORK:
-      return { ...state, isNetworkInvalidated: action.invalidated };
     default:
       return state;
   }

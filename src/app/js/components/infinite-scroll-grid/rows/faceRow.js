@@ -1,3 +1,9 @@
+/*
+ *  FaceRow Component
+ *  A row component that shows a face, price as dollars, the size as pixels and
+ *  when it was added to the catalogue
+ */
+
 import React, { PureComponent, PropTypes } from 'react';
 import moment from 'moment';
 
@@ -18,10 +24,12 @@ export default class FaceRow extends PureComponent {
     return `${this.props.size}px`;
   }
 
+  // Show price as dollars
   get priceInDollars() {
     return `$${Number(this.props.price / 100).toFixed(2)}`;
   }
 
+  // Format Date as 'x days ago' if it was added to the catalogue less than a week ago
   get formattedDate() {
     const now = moment();
     const date = moment(this.props.date);

@@ -1,8 +1,4 @@
 /*
- *  #TODO: Refactor and Document this component to be more readable and maintainable
- *  #TODO: Address linting issues in this component
- *  #BUG: There is a bug when quickly moving between sorts, fix this
- *
  *  InfiniteScrollGrid Component
  *  An infinite table that fetches records as it scrolls, it shows a batch of records
  *  and when reaching the end of the batch it shows the next one until reaching the
@@ -29,9 +25,11 @@ import { maybeFetchFaces, showNextFaces } from '../../actions';
 class InfiniteScrollGrid extends Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
-    faces: PropTypes.arrayOf(Object).isRequired,
     showNextFaces: PropTypes.func.isRequired,
     maybeFetchFaces: PropTypes.func.isRequired,
+    fetchedAllFaces: PropTypes.bool.isRequired,
+    faces: PropTypes.arrayOf(Object).isRequired,
+    visibleFaces: PropTypes.arrayOf(Object).isRequired,
   }
 
   componentWillMount() {
@@ -43,11 +41,34 @@ class InfiniteScrollGrid extends Component {
     this.removeScrollHandler();
   }
 
+  // When scrolling down fetch faces and maybe show a next batch of faces in the list
+  onScrollDown() {
+    this.fetchAndMaybeShowFaces();
+  }
+
+  // Triggered when scrolling to the bottom of the document
+  onDocumentBottom() {
+    // show next batch of faces if not fetch new faces and maybe show the next batch
+    if (!this.allFacesVisible) {
+      this.props.showNextFaces();
+    } else {
+      this.fetchAndMaybeShowFaces();
+    }
+  }
+
+  // Initializes the vertical scroll in the current scroll position and triggers
+  // handleScroll method when the user scrolls.
   setupScrollHandler() {
     this.lastVerticalScroll = this.verticalScroll;
     window.addEventListener('scroll', this.handleScroll.bind(this));
   }
 
+  // Removes the event listener when unmounting the component
+  removeScrollHandler() {
+    window.removeEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  // Gets the document height
   get documentHeight() {
     const { documentElement, body } = document;
     return Math.max(
@@ -59,79 +80,85 @@ class InfiniteScrollGrid extends Component {
     );
   }
 
+  // Gets the current scroll position of the user
   get verticalScroll() {
     return window.scrollY + window.innerHeight;
   }
 
-  get isDocumentBottom() {
+  // Is scroll position at the bottom of the document?
+  get isScrollAtDocumentBottom() {
     return this.verticalScroll + 100 > this.documentHeight;
   }
 
+  // All the batches of faces are been shown in the list?
   get allFacesVisible() {
-    return this.props.visibleFaces.length === this.props.faces.length;
+    const { visibleFaces, faces } = this.props;
+    return visibleFaces.length === faces.length;
   }
 
-  onScrollDown() {
-    this.fetchAndMaybeShowFaces();
-  }
-
-  onEndOfDocument() {
-    console.log('end of document');
-    // show next batch if not fetch and show next batch
-    if (!this.allFacesVisible) {
-      this.props.showNextFaces();
-    } else {
-      this.fetchAndMaybeShowFaces();
-    }
-  }
-
+  // Fetches faces from the server and maybe shows next batch of faces
   fetchAndMaybeShowFaces() {
     this.props.maybeFetchFaces().then(() => {
-        this.maybeShowNextFaces();
+      this.maybeShowNextFaces();
     });
   }
 
+  // if there are pending batches of faces to show on the list and we scrolled
+  // to the bottom of the list show the next batch of faces.
   maybeShowNextFaces() {
-    if (!this.allFacesVisible && this.isDocumentBottom) {
-      console.log('end of document');
+    if (!this.allFacesVisible && this.isScrollAtDocumentBottom) {
       this.props.showNextFaces();
     }
   }
 
+  // App triggers this function any time the user scrolls
   handleScroll() {
+    // first check if the user is scrolling down
     if (this.verticalScroll - this.lastVerticalScroll > 0) {
       this.onScrollDown();
     }
 
-    // when we are 200px short of the end of the document trigger onEndOfDocument
-    if (this.isDocumentBottom) {
-      this.onEndOfDocument();
+    // if the user is scrolling to the document bottom trigger on documentBottom
+    if (this.isScrollAtDocumentBottom) {
+      this.onDocumentBottom();
     }
+
+    // save current scroll position as old one to check if user is scrolling down
+    // on the next scroll event
     this.lastVerticalScroll = this.verticalScroll;
   }
 
+  // returns the items that are going to be shown in the grid, every 20 faces
+  // it shows an ad, at the end of the rows it appends a loading, and end of catalogue
+  // if needed
   get gridItems() {
+    const { faces, visibleFaces, isFetching, fetchedAllFaces } = this.props;
     const rows = [];
     let facesCount = 0;
 
-    _.each(this.props.faces, (face) => {
-      if (_.includes(this.props.visibleFaces, face.id)) {
+    _.each(faces, (face) => {
+      // If the faces is included in the batch of faces that should be shown in
+      // the list append a FaceRow into the array
+      if (_.includes(visibleFaces, face.id)) {
         rows.push(<FaceRow {...face} key={`face-row-${face.id}`} />);
-        facesCount++;
+        facesCount += 1;
       }
 
+      // Every 20 Faces we should show an Ad
       if (facesCount === 20) {
         rows.push(<AdRow />);
         facesCount = 0;
       }
     });
 
-    if (this.props.isFetching) {
+    // When fetching show a loading message at the end of the list
+    if (isFetching) {
       rows.push(<LoadingRow />);
       return rows;
     }
 
-    if (this.props.fetchedAllFaces) {
+    // When all the records are fetched from the server show an end of catalogue message
+    if (fetchedAllFaces) {
       rows.push(<EndRow />);
     }
 
