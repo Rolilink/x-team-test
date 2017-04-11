@@ -1,5 +1,8 @@
-// this module exposes a small wrapper around the fetch API, to fetch the server
-// for records and parse the response based on its content-type
+/*
+ *  #TODO: tests missing for this module
+ *  this module exposes a small wrapper around the fetch API, to fetch the server
+ *  for records and parse the response based on its content-type
+ */
 
 import 'isomorphic-fetch';
 

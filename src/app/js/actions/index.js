@@ -1,3 +1,7 @@
+/*
+ *  #TODO: tests missing for the actions
+ */
+
 import _ from 'lodash';
 import { fetchServer } from '../components/api';
 import { createRandomAdID, getPaginationParams, getUrlWithParams } from '../helpers';

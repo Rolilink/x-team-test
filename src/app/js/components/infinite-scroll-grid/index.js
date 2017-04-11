@@ -1,4 +1,8 @@
 /*
+ *  #TODO: Refactor and Document this component to be more readable and maintainable
+ *  #TODO: Address linting issues in this component
+ *  #BUG: There is a bug when quickly moving between sorts, fix this
+ *
  *  InfiniteScrollGrid Component
  *  An infinite table that fetches records as it scrolls, it shows a batch of records
  *  and when reaching the end of the batch it shows the next one until reaching the
