@@ -1,4 +1,9 @@
-import React, { PureComponent, PropTypes } from 'react';
+/*
+ *  AdRow Component
+ *  A simple row component that shows an ad.
+ */
+
+import React, { PureComponent } from 'react';
 import Ad from '../../ad';
 
 export default class AdRow extends PureComponent {

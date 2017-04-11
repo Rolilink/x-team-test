@@ -97,7 +97,8 @@ export function ads(adsState, action) {
 
 /*
  * Root Reducer
- * Each action is grouped in its own reducer that are described above
+ * Each group of actions its enclosed in its own function that mutates only the
+ * part of the state that concerns to the group.
  */
 export function app(state = initialState, action) {
   switch (action.type) {

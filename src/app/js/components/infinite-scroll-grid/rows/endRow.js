@@ -1,3 +1,8 @@
+/*
+ *  EndRow Component
+ *  A simple row component that shows the end of the calogue.
+ */
+
 import React, { PureComponent } from 'react';
 
 

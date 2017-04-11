@@ -1,9 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+/*
+ *  GridHeader Component
+ *  Just renders the header of the grid
+ */
 
+import React, { PureComponent } from 'react';
 
-export default class GridHeader extends React.PureComponent {
-  static propTypes = {}
-
+export default class GridHeader extends PureComponent {
   render() {
     return (
       <thead>

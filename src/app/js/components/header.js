@@ -1,7 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+/*
+ *  Header Component
+ *  Renders the app header with the site title, description and an ad.
+ */
+import React, { PureComponent } from 'react';
 import Ad from './ad';
 
-export default class Header extends React.PureComponent {
+export default class Header extends PureComponent {
   render() {
     return (
       <header>

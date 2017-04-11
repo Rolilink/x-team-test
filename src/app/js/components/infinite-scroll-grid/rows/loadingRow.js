@@ -1,3 +1,8 @@
+/*
+ *  LoadingRow Component
+ *  A simple row component that is shown when loading records.
+ */
+
 import React from 'react';
 
 

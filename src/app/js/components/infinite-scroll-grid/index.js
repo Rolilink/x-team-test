@@ -1,4 +1,16 @@
-/* global $*/
+/*
+ *  InfiniteScrollGrid Component
+ *  An infinite table that fetches records as it scrolls, it shows a batch of records
+ *  and when reaching the end of the batch it shows the next one until reaching the
+ *  end of the records catalogue.
+ *
+ *  It prefetches records when it cans to get a performance boost, and shows a LoadingRow
+ *  when all the pre-fetched records are shown and the app is fetching records from the server.
+ *
+ *  It shows an AdRow with a random Ad every 20 FaceRows, when reaching the end it shows an EndRow
+ *  at the end of the list.
+ */
+
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -13,7 +25,7 @@ import { maybeFetchFaces, showNextFaces } from '../../actions';
 class InfiniteScrollGrid extends Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
-    faces: PropTypes.array.isRequired,
+    faces: PropTypes.arrayOf(Object).isRequired,
     showNextFaces: PropTypes.func.isRequired,
     maybeFetchFaces: PropTypes.func.isRequired,
   }
@@ -48,7 +60,7 @@ class InfiniteScrollGrid extends Component {
   }
 
   get isDocumentBottom() {
-    return this.verticalScroll + 100 > this.documentHeight
+    return this.verticalScroll + 100 > this.documentHeight;
   }
 
   get allFacesVisible() {

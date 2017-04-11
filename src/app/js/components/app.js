@@ -1,12 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+/*
+ *  App Component
+ *  The Root component it renders the Header, Sorting Select and the Grid
+ */
+
+import React, { PureComponent } from 'react';
 import Header from './header';
 import InfiniteScrollGrid from './infinite-scroll-grid';
 import SortSelect from './sortSelect';
 
-class App extends Component {
-  static propTypes = {}
-
+export default class App extends PureComponent {
   render() {
     return (
       <div className="container">
@@ -17,8 +19,3 @@ class App extends Component {
     );
   }
 }
-
-const mapStatesToProps = () => ({});
-const mapDispatchToProps = {};
-
-export default connect(mapStatesToProps, mapDispatchToProps)(App);

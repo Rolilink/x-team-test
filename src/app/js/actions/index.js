@@ -18,6 +18,7 @@ export const RESET_FACES_STATE = 'RESET_FACES_STATE';
 export const RESET_LIST_PAGINATION_STATE = 'RESET_LIST_PAGINATION_STATE';
 export const INVALIDATE_NETWORK = 'INVALIDATE_NETWORK';
 
+// invalidates the network requests, so responses will not be added to the list.
 export function invalidateNetwork(invalidated) {
   return {
     type: INVALIDATE_NETWORK,
@@ -25,24 +26,28 @@ export function invalidateNetwork(invalidated) {
   };
 }
 
+// resets the servers pagination to its initial state with page = 0
 export function resetServerPaginationState() {
   return {
     type: RESET_SERVER_PAGINATION_STATE,
   };
 }
 
+// resets the list pagination to its initial state with page = 0
 export function resetListPaginationState() {
   return {
     type: RESET_LIST_PAGINATION_STATE,
   };
 }
 
+// resets the face state to its initial state, it leaves visibleFaces and faces empty
 export function resetFacesState() {
   return {
     type: RESET_FACES_STATE,
   };
 }
 
+// sets if the app is fetching the server for records
 export function setIsFetchingFaces(isFetching) {
   return {
     type: SET_FETCH_FACES,
@@ -50,6 +55,7 @@ export function setIsFetchingFaces(isFetching) {
   };
 }
 
+// sets if all records have been fetched from the server
 export function setFetchedAllFaces(fetchedAllFaces) {
   return {
     type: SET_FETCHED_ALL_FACES,
@@ -57,6 +63,7 @@ export function setFetchedAllFaces(fetchedAllFaces) {
   };
 }
 
+// add a batch faces to the app state
 export function addFaces(faces) {
   return {
     type: ADD_FACES,
@@ -64,6 +71,7 @@ export function addFaces(faces) {
   };
 }
 
+// add a batch of faces to be rendered on the list
 export function addFacesToList(faces) {
   return {
     type: ADD_FACES_TO_LIST,
@@ -71,6 +79,7 @@ export function addFacesToList(faces) {
   };
 }
 
+// adds an ad to the end of the ads list
 export function addAd(ad) {
   return {
     type: ADD_AD,
@@ -78,6 +87,7 @@ export function addAd(ad) {
   };
 }
 
+// sets the field that list should be sorted
 export function setSort(field) {
   return {
     type: SET_SORT,
@@ -85,6 +95,7 @@ export function setSort(field) {
   };
 }
 
+// sets the page of records we should fetch from the server
 export function setPage(page) {
   return {
     type: SET_SERVER_PAGE,
@@ -92,6 +103,7 @@ export function setPage(page) {
   };
 }
 
+// sets the quantity of faces that we should fetch from the server
 export function setLimit(limit) {
   return {
     type: SET_SERVER_LIMIT,
@@ -99,6 +111,7 @@ export function setLimit(limit) {
   };
 }
 
+// sets the page of the "batch of records" that will be added when scrolling to the end of the list
 export function setListPage(page) {
   return {
     type: SET_LIST_PAGE,
@@ -106,6 +119,7 @@ export function setListPage(page) {
   };
 }
 
+// sets the "batch size" of faces that are shown when scrolling down to the end of the list
 export function setListLimit(limit) {
   return {
     type: SET_LIST_LIMIT,
@@ -113,6 +127,7 @@ export function setListLimit(limit) {
   };
 }
 
+// It sends a promise that gets resolved when faces.isFetching changes to false
 export function whenIsNotFetching(getState) {
   return new Promise((resolve) => {
     let isFetching = true;
@@ -128,6 +143,9 @@ export function whenIsNotFetching(getState) {
   });
 }
 
+// Handle pagination on the client side of the app, it shows "the next batch of faces"
+// that are prefetched while scrolling but that aren't shown until we reach the end of
+// the document
 export function showNextFaces() {
   return (dispatch, getState) => {
     const state = getState();
@@ -136,8 +154,10 @@ export function showNextFaces() {
     const nextPage = page + 1;
     const skip = nextPage > 1 ? page * limit : 0;
 
+    // Gets the next batch of element skipping x components and taking limit component more.
     const nextFaces = _.chain(faces).map(face => face.id).slice(skip, skip + limit).value();
 
+    // when there are faces to show dispatch addFacesToList to show them.
     if (nextFaces.length > 0) {
       dispatch(setListPage(nextPage));
       return dispatch(addFacesToList(nextFaces));
@@ -145,49 +165,69 @@ export function showNextFaces() {
   };
 }
 
+// It generates an ad id and adds it to the end of ads state
 export function generateAd() {
   return (dispatch, getState) => {
     const state = getState();
     const { ads } = state.ads;
     const lastAd = _.last(ads);
-
+    // Creates a random Id
     let newAd = createRandomAdID();
 
+    // Recreate random Id until the Id created is different from the last id
+    // on the ad state
     while (newAd === lastAd) {
       newAd = createRandomAdID();
     }
 
+    // add new id to the end of ads state
     dispatch(addAd(newAd));
     return newAd;
   };
 }
 
+// Fetch faces from the server using the API.fetchServer function,
+// generates the url to fetch from pagination and sort parameters
+// and handle the response to add faces to the app state
 export function fetchFaces() {
   return (dispatch, getState) => {
+    // pagination starts on 0 and always gets the next page of records
     const state = getState();
     const { page, limit } = state.pagination; // Advances to next paginated request
     const nextPage = page + 1;
+
+    // get pagination and sort params always from the next page
     const paginationParams = getPaginationParams(nextPage, limit);
     const sortParams = { sort: state.sort.field };
+
+    // join params in one object
     const params = { ...paginationParams, sort: sortParams.sort };
+
+    // gets url to fetch
     const url = getUrlWithParams('/api/products', params);
+
+    // set faces.isFetching to true before fetching data from the server
     dispatch(setIsFetchingFaces(true));
 
     return fetchServer(url).then((response) => {
       const { isNetworkInvalidated } = getState();
 
-      // when server request is completed and network is invalidated complete
-      // the request by dispatching setIsFetchingFaces(false)
-      // when network is invalidated request completed don't change the app state
+      // when server request is completed and network is invalidated set the
+      // request as completed by dispatching setIsFetchingFaces(false),
+      // when network is invalidated it doesn't add faces to the state.
       if (isNetworkInvalidated) {
         return dispatch(setIsFetchingFaces(false));
       }
 
       if (response.data.length > 0) {
+        // when data is returned add faces to the array, changes the page and
+        // sets faces.isFetching to false
         dispatch(addFaces(response.data));
         dispatch(setPage(page + 1));
         dispatch(setIsFetchingFaces(false));
       } else {
+        // when there are no more records to return set faces.isFetching to false
+        // and set faces.fetchedAllFaces to true
         dispatch(setIsFetchingFaces(false));
         dispatch(setFetchedAllFaces(true));
       }
@@ -195,11 +235,21 @@ export function fetchFaces() {
   };
 }
 
+// Resets faces list state, server paginations state, list pagination state
+export function resetListState(dispatch) {
+  dispatch(resetFacesState());
+  dispatch(resetServerPaginationState());
+  dispatch(resetListPaginationState());
+}
+
+// Triggered by the sort select it changes the sort state, resets the list state,
+// fetches the first batch of faces and shows them.
 export function changeSort(newField) {
   return (dispatch, getState) => {
     const state = getState();
     const oldField = state.sort.field;
 
+    // why to dispatch a lot of actions when we are not updating the state?
     if (newField === oldField) {
       return;
     }
@@ -208,14 +258,16 @@ export function changeSort(newField) {
     dispatch(resetFacesState());
     dispatch(invalidateNetwork(true));
 
-    // first check that all network activity is finished then reset state and
-    // start fetching new sort records.
+    // first wait that faces fetching state changes
     whenIsNotFetching(getState).then(() => {
+      // when fetching is false reset app state
       dispatch(invalidateNetwork(false));
-      dispatch(resetFacesState());
-      dispatch(resetServerPaginationState());
-      dispatch(resetListPaginationState());
+      resetListState(dispatch);
+
+      // change sort field
       dispatch(setSort(newField));
+
+      // fetch faces and show them immediatly
       return dispatch(fetchFaces()).then(() => {
         dispatch(showNextFaces());
       });
@@ -223,11 +275,13 @@ export function changeSort(newField) {
   };
 }
 
+// It fetches faces from the server when the api is not fetching data
 export function maybeFetchFaces() {
   return (dispatch, getState) => {
     const state = getState();
+    const { isFetching } = state.faces;
 
-    if (!state.faces.isFetching) {
+    if (!isFetching) {
       return dispatch(fetchFaces());
     }
 
