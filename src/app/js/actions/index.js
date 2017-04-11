@@ -107,16 +107,18 @@ export function showNextFaces() {
 export function generateAd() {
   return (dispatch, getState) => {
     const state = getState();
-    const { ads } = state;
+    const { ads } = state.ads;
     const lastAd = _.last(ads);
 
     let newAd = createRandomAdID();
 
     while (newAd === lastAd) {
+      debugger;
       newAd = createRandomAdID();
     }
 
-    return dispatch(addAd(newAd));
+    dispatch(addAd(newAd));
+    return newAd;
   };
 }
 

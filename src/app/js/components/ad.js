@@ -1,9 +1,14 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { generateAd } from '../actions'
 
+class Ad extends Component {
+  componentWillMount() {
+    this.id = this.props.generateAd();
+  }
 
-export default class Ad extends Component {
   get adSrc() {
-    return '/ad/?r=653';
+    return `/ad/?r=${this.id}`;
   }
 
   render() {
@@ -12,3 +17,15 @@ export default class Ad extends Component {
     );
   }
 }
+
+const mapStatesToProps = (state) => {
+  return {
+    ad: state.ads.lastAd,
+  }
+}
+
+const mapDispatchToProps = {
+  generateAd,
+}
+
+export default connect(mapStatesToProps, mapDispatchToProps)(Ad);
