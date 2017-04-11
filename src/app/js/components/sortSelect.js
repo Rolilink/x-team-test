@@ -14,14 +14,14 @@ class SortSelect extends Component {
         <select className="form-control" onChange={(e) => { this.changeSort(e); }}>
           <option selected="id">ID</option>
           <option value="size">Size</option>
-          <option value="cost">Cost</option>
+          <option value="price">Price</option>
         </select>
       </div>
     );
   }
 }
 
-const mapStatesToProps = state => ({ field: state.sort.field });
+const mapStatesToProps = state => ({ field: state.sort.field, isFetching: state.faces.isFetching });
 
 const mapDispatchToProps = {
   changeSort,

@@ -16,6 +16,14 @@ export const SET_SORT = 'SET_SORT';
 export const RESET_SERVER_PAGINATION_STATE = 'RESET_PAGINATION_STATE';
 export const RESET_FACES_STATE = 'RESET_FACES_STATE';
 export const RESET_LIST_PAGINATION_STATE = 'RESET_LIST_PAGINATION_STATE';
+export const INVALIDATE_NETWORK = 'INVALIDATE_NETWORK';
+
+export function invalidateNetwork(invalidated) {
+  return {
+    type: INVALIDATE_NETWORK,
+    invalidated,
+  };
+}
 
 export function resetServerPaginationState() {
   return {
@@ -108,13 +116,15 @@ export function setListLimit(limit) {
 export function whenIsNotFetching(getState) {
   return new Promise((resolve) => {
     let isFetching = true;
-
-    while (isFetching) {
+    const interval = setInterval(() => {
       const state = getState();
       isFetching = state.faces.isFetching;
-    }
 
-    resolve(isFetching);
+      if (!isFetching) {
+        resolve(isFetching);
+        clearInterval(interval);
+      }
+    }, 200);
   });
 }
 
@@ -164,6 +174,15 @@ export function fetchFaces() {
     dispatch(setIsFetchingFaces(true));
 
     return fetchServer(url).then((response) => {
+      const { isNetworkInvalidated } = getState();
+
+      // when server request is completed and network is invalidated complete
+      // the request by dispatching setIsFetchingFaces(false)
+      // when network is invalidated request completed don't change the app state
+      if (isNetworkInvalidated) {
+        return dispatch(setIsFetchingFaces(false));
+      }
+
       if (response.data.length > 0) {
         dispatch(addFaces(response.data));
         dispatch(setPage(page + 1));
@@ -184,9 +203,15 @@ export function changeSort(newField) {
     if (newField === oldField) {
       return;
     }
+
+    // Set the app state on fetching to avoid new fetch actions and shows FetchRow.
+    dispatch(resetFacesState());
+    dispatch(invalidateNetwork(true));
+
     // first check that all network activity is finished then reset state and
     // start fetching new sort records.
     whenIsNotFetching(getState).then(() => {
+      dispatch(invalidateNetwork(false));
       dispatch(resetFacesState());
       dispatch(resetServerPaginationState());
       dispatch(resetListPaginationState());
