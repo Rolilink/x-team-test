@@ -13,11 +13,29 @@ export const SET_SERVER_LIMIT = 'SET_SERVER_LIMIT';
 export const SET_LIST_PAGE = 'SET_LIST_PAGE';
 export const SET_LIST_LIMIT = 'SET_LIST_LIMIT';
 export const SET_SORT = 'SET_SORT';
-// export const SET_VISIBLE_RANGE_START = 'SET_VISIBLE_RANGE_START';
-// export const SET_VISIBLE_RANGE_END = ' SET_VISIBLE_RANGE_END';
-// export const SET_LOADED_ALL_RECORDS = 'SET_LOADED_ALL_RECORDS';
+export const RESET_SERVER_PAGINATION_STATE = 'RESET_PAGINATION_STATE';
+export const RESET_FACES_STATE = 'RESET_FACES_STATE';
+export const RESET_LIST_PAGINATION_STATE = 'RESET_LIST_PAGINATION_STATE';
 
-export function setFetchFaces(isFetching) {
+export function resetServerPaginationState() {
+  return {
+    type: RESET_SERVER_PAGINATION_STATE,
+  };
+}
+
+export function resetListPaginationState() {
+  return {
+    type: RESET_LIST_PAGINATION_STATE,
+  };
+}
+
+export function resetFacesState() {
+  return {
+    type: RESET_FACES_STATE,
+  };
+}
+
+export function setIsFetchingFaces(isFetching) {
   return {
     type: SET_FETCH_FACES,
     isFetching,
@@ -87,10 +105,23 @@ export function setListLimit(limit) {
   };
 }
 
+export function whenIsNotFetching(getState) {
+  return new Promise((resolve) => {
+    let isFetching = true;
+
+    while (isFetching) {
+      const state = getState();
+      isFetching = state.faces.isFetching;
+    }
+
+    resolve(isFetching);
+  });
+}
+
 export function showNextFaces() {
   return (dispatch, getState) => {
     const state = getState();
-    const { faces, fetchedAllFaces } = state.faces;
+    const { faces } = state.faces;
     const { limit, page } = state.listPagination;
     const nextPage = page + 1;
     const skip = nextPage > 1 ? page * limit : 0;
@@ -113,7 +144,6 @@ export function generateAd() {
     let newAd = createRandomAdID();
 
     while (newAd === lastAd) {
-      debugger;
       newAd = createRandomAdID();
     }
 
@@ -131,17 +161,39 @@ export function fetchFaces() {
     const sortParams = { sort: state.sort.field };
     const params = { ...paginationParams, sort: sortParams.sort };
     const url = getUrlWithParams('/api/products', params);
-    dispatch(setFetchFaces(true));
+    dispatch(setIsFetchingFaces(true));
 
     return fetchServer(url).then((response) => {
       if (response.data.length > 0) {
         dispatch(addFaces(response.data));
         dispatch(setPage(page + 1));
-        dispatch(setFetchFaces(false));
+        dispatch(setIsFetchingFaces(false));
       } else {
-        dispatch(setFetchFaces(false));
+        dispatch(setIsFetchingFaces(false));
         dispatch(setFetchedAllFaces(true));
       }
+    });
+  };
+}
+
+export function changeSort(newField) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const oldField = state.sort.field;
+
+    if (newField === oldField) {
+      return;
+    }
+    // first check that all network activity is finished then reset state and
+    // start fetching new sort records.
+    whenIsNotFetching(getState).then(() => {
+      dispatch(resetFacesState());
+      dispatch(resetServerPaginationState());
+      dispatch(resetListPaginationState());
+      dispatch(setSort(newField));
+      return dispatch(fetchFaces()).then(() => {
+        dispatch(showNextFaces());
+      });
     });
   };
 }

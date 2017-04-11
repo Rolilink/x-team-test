@@ -36,6 +36,8 @@ export function faces(facesState, action) {
       return { ...facesState, faces: [...facesState.faces, ...action.faces] };
     case actions.ADD_FACES_TO_LIST:
       return { ...facesState, visibleFaces: [...facesState.visibleFaces, ...action.faces] };
+    case actions.RESET_FACES_STATE:
+      return initialState.faces;
     case actions.SET_FETCHED_ALL_FACES:
       return { ...facesState, fetchedAllFaces: action.fetchedAllFaces };
     default:
@@ -61,6 +63,8 @@ export function pagination(paginationState, action) {
       return { ...paginationState, limit: action.limit };
     case actions.SET_SERVER_PAGE:
       return { ...paginationState, page: action.page };
+    case actions.RESET_SERVER_PAGINATION_STATE:
+      return { ...initialState.pagination };
     default:
       return paginationState;
   }
@@ -73,6 +77,8 @@ export function listPagination(listPaginationState, action) {
       return { ...listPaginationState, limit: action.limit };
     case actions.SET_LIST_PAGE:
       return { ...listPaginationState, page: action.page };
+    case actions.RESET_LIST_PAGINATION_STATE:
+      return { ...initialState.listPagination };
     default:
       return listPaginationState;
   }
@@ -99,6 +105,7 @@ export function app(state = initialState, action) {
     case actions.ADD_FACES:
     case actions.ADD_FACES_TO_LIST:
     case actions.SET_FETCHED_ALL_FACES:
+    case actions.RESET_FACES_STATE:
       return { ...state, faces: faces(state.faces, action) };
     // Ads Actions
     case actions.ADD_AD:
@@ -106,10 +113,12 @@ export function app(state = initialState, action) {
     // Server Pagination Actions
     case actions.SET_SERVER_PAGE:
     case actions.SET_SERVER_LIMIT:
+    case actions.RESET_SERVER_PAGINATION_STATE:
       return { ...state, pagination: pagination(state.listPagination, action) };
     // List Pagination Actions
     case actions.SET_LIST_PAGE:
     case actions.SET_LIST_LIMIT:
+    case actions.RESET_LIST_PAGINATION_STATE:
       return { ...state, listPagination: listPagination(state.listPagination, action) };
     // Sort Actions
     case actions.SET_SORT:

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { generateAd } from '../actions'
+import { generateAd } from '../actions';
 
 class Ad extends Component {
   componentWillMount() {
@@ -18,11 +18,7 @@ class Ad extends Component {
   }
 }
 
-const mapStatesToProps = (state) => {
-  return {
-    ad: state.ads.lastAd,
-  }
-};
+const mapStatesToProps = state => ({ ad: state.ads.lastAd });
 
 const mapDispatchToProps = {
   generateAd,
