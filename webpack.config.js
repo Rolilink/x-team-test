@@ -10,7 +10,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 module.exports = {
   entry: './src/app/js/app.js',
   output: {
-    path: path.resolve('dist'),
+    path: path.resolve('static'),
     filename: 'bundle.js'
   },
   module: {

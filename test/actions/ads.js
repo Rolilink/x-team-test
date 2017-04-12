@@ -34,7 +34,7 @@ describe('AdsActions#generateAd', () => {
 
   it('should dispatch addAd', () => {
     const expectedActions = [expectedAction];
-    const store = mockStore({ ads: [] }); // creates a store mock with empty ads
+    const store = mockStore({ ads: { ads: [] } }); // creates a store mock with empty ads
     sinon.stub(helpers, 'createRandomAdID').returns(23);
     store.dispatch(actions.generateAd());
 
@@ -47,7 +47,7 @@ describe('AdsActions#generateAd', () => {
       ad: 15,
     }];
 
-    const store = mockStore({ ads: [15, 23] }); // creates a store mock with empty ads
+    const store = mockStore({ ads: { ads: [15, 23] } }); // creates a store mock with empty ads
     sinon.stub(helpers, 'createRandomAdID')
       .onFirstCall()
       .returns(23) // on first call to createRandomAdID returns duplicated ad
@@ -60,7 +60,7 @@ describe('AdsActions#generateAd', () => {
   });
 
   it('should call createRandomAdID to generate random ads ids', () => {
-    const store = mockStore({ ads: [] }); // creates a store mock with empty ads
+    const store = mockStore({ ads: { ads: [] } }); // creates a store mock with empty ads
     sinon.stub(helpers, 'createRandomAdID').returns(23);
     store.dispatch(actions.generateAd());
 

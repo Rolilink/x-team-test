@@ -6,7 +6,8 @@
 
 import 'isomorphic-fetch';
 
-const ENDPOINT = 'http://localhost:8080';
+// const ENDPOINT = 'http://localhost:8080'; // Dev Endpoint
+const ENDPOINT = 'http://localhost:8000'; // Production Endpoint
 
 // Parses new-delimited json
 export function parseNDJSON(response) {

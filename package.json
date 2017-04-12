@@ -8,7 +8,8 @@
     "start": "node .",
     "dev-server": "webpack-dev-server",
     "dev": "concurrently --kill-others \"npm run start\" \"npm run dev-server\"",
-    "test": "mocha --require test/helpers/browser.js --require test/helpers/setup.js --recursive"
+    "test": "mocha --require test/helpers/browser.js --require test/helpers/setup.js --recursive",
+    "build": "webpack"
   },
   "author": "",
   "license": "",
