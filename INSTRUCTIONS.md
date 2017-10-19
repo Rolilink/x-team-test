@@ -30,8 +30,6 @@ To access the app while runing the dev-server just go to `http://localhost:8080`
 Http requests to `/ad` and `/api` will be redirected to the node server.
 
 ### Final Notes
-The app was developed with React and Redux, the tests are written with Mocha, Chai and Sinon.
+There is still a lot of code I could not cover with tests, I think with more time I could have added tests to cover the row rendering on the InfiniteScrollGrid Component
 
-Tests are not completed but with a little more time I could add Testing to components with Enzyme and to the API Module with Nock.
-
-Also found a little issue where the server is returning the same cat image even if the 2 ids are different, so if you find 2 ads repeating themselves there is some server work to do there.
+Also found a little issue where the server is returning the same cat image in a row, even if the 2 ids are totally different. I think this could be because there are repeated images with different ids on the place kitten api.
