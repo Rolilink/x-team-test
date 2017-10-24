@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ads.Redux.ActionCreators.addAd should return an ADD_AD action with an ad payload 1`] = `
+Object {
+  "payload": Object {
+    "ad": 1,
+  },
+  "type": "x-team/discount-ascii-warehouse/ads/ADD",
+}
+`;
+
+exports[`Ads.Redux.ActionCreators.clearAds should return an CLEAR_ADS action 1`] = `
+Object {
+  "type": "x-team/discount-ascii-warehouse/ads/CLEAR",
+}
+`;

@@ -1,0 +1,56 @@
+TODO:
+* Move Business Logic into Modules
+- Move Network Requests into /libs/api/products
+- Migrate Redux Business Logic into Ducks
+- Migrate Actions and Reducers with FSA, Cases and Action Promises
+- Decouple React Components
+- Create Common Components
+- Decouple Scroll Logic From Components
+-------------------------------------------------------------------------------
+
+divide product feature / ad feature in
+
+ProductGrid
+Grid
+Row
+EmptyMessage
+Ad
+FetchingMessage
+
+withFetchingMessage = enhanceRenderRowProp(wrapWithRow(FetchingMessage));
+withAds = enhanceRenderRowProp(wrapWithRow(Ad));
+withEndMessage = enhanceRenderRowProp(WrapWithRow(EndMessage));
+withInfiniteScroll = enhancehWithScrollable({ onScrollDown: fn, onScrollToBottom: fn });
+withActionsAndState = connect(mapDispatchToProps, mapStatesToProps)
+
+InfiniteScrollProductGrid = compose(
+  withFetchingMessage,
+  withAds,
+  withEndMessage,
+  withInfiniteScroll,
+  withActionsAndState,
+)(Grid)
+
+composePropFn = propName, newFn => mapProps(props => {
+  const propFn = props[propName];
+  const composedPropFn = (args) => {
+    return newFn(PropFn());
+  }
+
+  return { ...props, [propName]: composedPropFn };
+});
+
+enhancehWithScrollable = scrollCallbacks => (BaseComponent) => {
+  return Class ScrollableWrapper extends BaseComponent {
+    // scroll management logic
+
+    render() {
+      const props = this.props;
+
+      return <BaseComponents {...props} />
+    }
+  };
+}
+
+
+ProductGrid(props: renderRow);

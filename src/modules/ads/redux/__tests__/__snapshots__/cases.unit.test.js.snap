@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ads.Redux.Cases.addAd should add an ad at the end of the ads array 1`] = `
+Array [
+  1,
+  2,
+  3,
+]
+`;
+
+exports[`Ads.Redux.Cases.clearAds should add an ad at the end of the ads array 1`] = `Array []`;

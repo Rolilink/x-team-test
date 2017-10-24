@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ads.Redux.ActionTypes should contain ADD_AD actionType 1`] = `"x-team/discount-ascii-warehouse/ads/ADD"`;
+
+exports[`Ads.Redux.ActionTypes should contain CLEAR_ADS actionType 1`] = `"x-team/discount-ascii-warehouse/ads/CLEAR"`;

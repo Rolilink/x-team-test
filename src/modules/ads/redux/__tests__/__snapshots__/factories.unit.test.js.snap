@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ads.Redux.Factories.adsState should return an state with an empty ads array as default 1`] = `Array []`;

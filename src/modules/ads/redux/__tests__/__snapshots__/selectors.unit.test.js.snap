@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ads.Redux.Selectors.getAds should return the ads array 1`] = `
+Array [
+  1,
+  2,
+  3,
+]
+`;
+
+exports[`Ads.Redux.Selectors.getLastAd should return the last ad in the ads array 1`] = `3`;
+
+exports[`Ads.Redux.Selectors.getState should return the ads state 1`] = `
+Object {
+  "ads": Array [
+    1,
+    2,
+    3,
+  ],
+}
+`;

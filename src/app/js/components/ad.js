@@ -14,7 +14,7 @@ class Ad extends Component {
   }
 
   componentWillMount() {
-    // It generates the ad when mounted and assigns it ass an object attribute
+    // It generates the ad when mounted and assigns it as an object attribute
     // this way it generates independent ad components that doesn't depend on
     // its parents, so we can drop them on Header or an AdRow.
     this.id = this.props.generateAd();

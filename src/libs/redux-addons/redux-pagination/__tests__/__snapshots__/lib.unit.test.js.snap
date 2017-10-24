@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cases.decrementPage should decrement page from state 1`] = `
+Object {
+  "items": Array [],
+  "pagination": Object {
+    "limit": 10,
+    "page": 1,
+  },
+}
+`;
+
+exports[`cases.decrementPage should never decrement less than zero 1`] = `
+Object {
+  "items": Array [],
+  "pagination": Object {
+    "limit": 10,
+    "page": 0,
+  },
+}
+`;
+
+exports[`cases.incrementPage should increment page from state 1`] = `
+Object {
+  "items": Array [],
+  "pagination": Object {
+    "limit": 0,
+    "page": 1,
+  },
+}
+`;
+
+exports[`cases.setLimit should set limit from payload 1`] = `
+Object {
+  "items": Array [],
+  "pagination": Object {
+    "limit": 5,
+    "page": 0,
+  },
+}
+`;
+
+exports[`cases.setPage should set page from payload 1`] = `
+Object {
+  "items": Array [],
+  "pagination": Object {
+    "limit": 10,
+    "page": 5,
+  },
+}
+`;
+
+exports[`enhancer.withPagination should be able to initialize network state 1`] = `
+Object {
+  "items": Array [],
+  "pagination": Object {
+    "limit": 10,
+    "page": 1,
+  },
+}
+`;
+
+exports[`enhancer.withPagination should enhance received state to add network state 1`] = `
+Object {
+  "items": Array [],
+  "pagination": Object {
+    "limit": 0,
+    "page": 0,
+  },
+}
+`;
+
+exports[`paginationFactory should return default state 1`] = `
+Object {
+  "limit": 0,
+  "page": 0,
+}
+`;

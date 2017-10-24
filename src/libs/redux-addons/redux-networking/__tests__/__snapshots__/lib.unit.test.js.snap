@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cases.setError should set error state with the action payload and isFetching to false 1`] = `
+Object {
+  "items": Array [],
+  "network": Object {
+    "error": "error",
+    "isFetching": false,
+  },
+}
+`;
+
+exports[`cases.setFetching should set fetching to true and error to null 1`] = `
+Object {
+  "items": Array [],
+  "network": Object {
+    "error": null,
+    "isFetching": true,
+  },
+}
+`;
+
+exports[`cases.setSuccess should set state to default state 1`] = `
+Object {
+  "items": Array [],
+  "network": Object {
+    "error": null,
+    "isFetching": false,
+  },
+}
+`;
+
+exports[`enhancer.withNetwork should be able to initialize network state 1`] = `
+Object {
+  "items": Array [],
+  "network": Object {
+    "error": "error",
+    "isFetching": true,
+  },
+}
+`;
+
+exports[`enhancer.withNetwork should enhance received state to add network state 1`] = `
+Object {
+  "items": Array [],
+  "network": Object {
+    "error": null,
+    "isFetching": false,
+  },
+}
+`;
+
+exports[`factory.networkFactory should return default network state 1`] = `
+Object {
+  "error": null,
+  "isFetching": false,
+}
+`;
+
+exports[`selectors.getError should return the error value 1`] = `"error"`;
+
+exports[`selectors.getIsFetching should return the isFetching value 1`] = `false`;
+
+exports[`selectors.getNetworkState should return the network subtree of the state 1`] = `
+Object {
+  "error": "error",
+  "isFetching": false,
+}
+`;
