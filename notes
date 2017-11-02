@@ -1,11 +1,13 @@
 TODO:
-* Move Business Logic into Modules
-- Move Network Requests into /libs/api/products
-- Migrate Redux Business Logic into Ducks
-- Migrate Actions and Reducers with FSA, Cases and Action Promises
-- Decouple React Components
-- Create Common Components
-- Decouple Scroll Logic From Components
+done - Move Ads Business Logic into Modules
+done - Move Ads Generation Logic into a Service
+done - Move Network Requests into /libs/api (missing tests)
+todo - Move Products Business Logic into Modules
+wip  - Move Pagination, Sorting and Networking into separate reusable modules
+wip  - Migrate Redux Business Logic into Ducks
+wip  - Migrate Actions and Reducers with FSA, Cases and Action Promises
+todo - Plan Products React Components
+todo - Plan Ads React Components
 -------------------------------------------------------------------------------
 
 divide product feature / ad feature in
@@ -20,7 +22,7 @@ FetchingMessage
 withFetchingMessage = enhanceRenderRowProp(wrapWithRow(FetchingMessage));
 withAds = enhanceRenderRowProp(wrapWithRow(Ad));
 withEndMessage = enhanceRenderRowProp(WrapWithRow(EndMessage));
-withInfiniteScroll = enhancehWithScrollable({ onScrollDown: fn, onScrollToBottom: fn });
+withInfiniteScroll = enhanceWithScrollable({ onScrollDown: fn, onScrollToBottom: fn });
 withActionsAndState = connect(mapDispatchToProps, mapStatesToProps)
 
 InfiniteScrollProductGrid = compose(

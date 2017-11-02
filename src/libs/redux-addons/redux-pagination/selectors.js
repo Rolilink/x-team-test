@@ -1,32 +1,52 @@
 import { createSelector } from 'reselect';
 
-export const getPaginationState = state => state.pagination;
+const getArrayPositionsForPage = (page, limit) => ({
+  start: (page - 1) * limit,
+  end: page * limit,
+});
 
-export const getValuesToPaginate = (state, { key }) => state[key];
+const getPaginationState = state => state.pagination;
 
-const getCurrentPage = createSelector(
-  getPaginationState,
-  ({ page }) => page,
-);
+const getValuesToPaginate = (state, { key }) => state[key];
 
-export const getLimit = createSelector(
-  getPaginationState,
-  ({ limit }) => limit,
-);
+export default () => {
+  const getCurrentPage = createSelector(
+    getPaginationState,
+    ({ page }) => page,
+  );
 
-export const getNextPage = createSelector(
-  getCurrentPage,
-  page => page + 1,
-);
+  const getLimit = createSelector(
+    getPaginationState,
+    ({ limit }) => limit,
+  );
 
-export const getPreviousPage = createSelector(
-  getCurrentPage,
-  page => (page === 0 ? null : page - 1),
-);
+  const getNextPage = createSelector(
+    getCurrentPage,
+    page => page + 1,
+  );
 
-export const getBatchFromFirstPageToCurrent = createSelector(
-  getValuesToPaginate,
-  getCurrentPage,
-  getLimit,
-  (values, currentPage, limit) => values.slice(0, (currentPage - 1) * limit),
-);
+  const getPreviousPage = createSelector(
+    getCurrentPage,
+    page => page - 1,
+  );
+
+  const getBatchFromFirstPageToCurrent = createSelector(
+    getValuesToPaginate,
+    getCurrentPage,
+    getLimit,
+    (values, currentPage, limit) => {
+      const { end } = getArrayPositionsForPage(currentPage, limit);
+
+      return values.slice(0, end);
+    });
+
+  return {
+    getPaginationState,
+    getValuesToPaginate,
+    getCurrentPage,
+    getLimit,
+    getNextPage,
+    getPreviousPage,
+    getBatchFromFirstPageToCurrent,
+  };
+};

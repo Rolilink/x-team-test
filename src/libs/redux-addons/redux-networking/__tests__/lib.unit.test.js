@@ -2,7 +2,7 @@ import withNetwork, { networkFactory, cases, selectors } from '../';
 
 
 const { setSuccess, setFetching, setError } = cases;
-const { getNetworkState, getIsFetching, getError } = selectors;
+const { getIsFetching, getError } = selectors();
 
 describe('cases.setSuccess', () => {
   it('should set state to default state', () => {
@@ -49,6 +49,7 @@ describe('cases.setError', () => {
 });
 
 describe('factory.networkFactory', () => {
+  /* TODO: create passing properties scenario */
   it('should return default network state', () => {
     expect(networkFactory()).toMatchSnapshot();
   });
@@ -73,20 +74,6 @@ describe('enhancer.withNetwork', () => {
     };
 
     expect(withNetwork(state, initialNetworkState)).toMatchSnapshot();
-  });
-});
-
-describe('selectors.getNetworkState', () => {
-  const state = {
-    items: [],
-    network: {
-      isFetching: false,
-      error: 'error',
-    },
-  };
-
-  it('should return the network subtree of the state', () => {
-    expect(getNetworkState(state)).toMatchSnapshot();
   });
 });
 

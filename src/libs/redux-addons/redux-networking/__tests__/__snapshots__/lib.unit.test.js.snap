@@ -60,10 +60,3 @@ Object {
 exports[`selectors.getError should return the error value 1`] = `"error"`;
 
 exports[`selectors.getIsFetching should return the isFetching value 1`] = `false`;
-
-exports[`selectors.getNetworkState should return the network subtree of the state 1`] = `
-Object {
-  "error": "error",
-  "isFetching": false,
-}
-`;

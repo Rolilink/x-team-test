@@ -1,6 +1,13 @@
-import withPagination, { paginationFactory, cases } from '../';
+import withPagination, { paginationFactory, cases, selectors } from '../';
 
 const { setPage, setLimit, incrementPage, decrementPage } = cases;
+const {
+  getCurrentPage,
+  getLimit,
+  getNextPage,
+  getPreviousPage,
+  getBatchFromFirstPageToCurrent,
+} = selectors();
 
 describe('cases.setPage', () => {
   it('should set page from payload', () => {
@@ -75,6 +82,7 @@ describe('cases.decrementPage', () => {
 });
 
 describe('paginationFactory', () => {
+  /* TODO: create passing properties scenario */
   it('should return default state', () => {
     expect(paginationFactory()).toMatchSnapshot();
   });
@@ -99,5 +107,82 @@ describe('enhancer.withPagination', () => {
     };
 
     expect(withPagination(state, initialPaginationState)).toMatchSnapshot();
+  });
+});
+
+describe('selectors', () => {
+  const items = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+    12, 13, 14, 15, 16, 17, 18, 19, 20,
+  ];
+
+  describe('getCurrentPage', () => {
+    it('should return the current page from the pagination state', () => {
+      const state = {
+        items,
+        pagination: {
+          page: 1,
+          limit: 5,
+        },
+      };
+
+      expect(getCurrentPage(state)).toMatchSnapshot();
+    });
+  });
+
+  describe('getLimit', () => {
+    it('should return the current limit from the pagination state', () => {
+      const state = {
+        items,
+        pagination: {
+          page: 1,
+          limit: 5,
+        },
+      };
+
+      expect(getLimit(state)).toMatchSnapshot();
+    });
+  });
+
+  describe('getNextPage', () => {
+    it('should return the next page from the pagination state', () => {
+      const state = {
+        items,
+        pagination: {
+          page: 1,
+          limit: 5,
+        },
+      };
+
+      expect(getNextPage(state)).toMatchSnapshot();
+    });
+  });
+
+  describe('getPreviousPage', () => {
+    it('should return the previous page from the pagination state', () => {
+      const state = {
+        items,
+        pagination: {
+          page: 2,
+          limit: 5,
+        },
+      };
+
+      expect(getPreviousPage(state)).toMatchSnapshot();
+    });
+  });
+
+  describe('getBatchFromFirstPageToCurrent', () => {
+    it('should return the current page from the pagination state', () => {
+      const state = {
+        items,
+        pagination: {
+          page: 1,
+          limit: 5,
+        },
+      };
+
+      expect(getBatchFromFirstPageToCurrent(state, { key: 'items' })).toMatchSnapshot();
+    });
   });
 });

@@ -1,13 +1,21 @@
 import { createSelector } from 'reselect';
 
-export const getNetworkState = state => state.network;
+const getNetworkState = state => state.network;
 
-export const getIsFetching = createSelector(
-  getNetworkState,
-  ({ isFetching }) => isFetching,
-);
+export default () => {
+  const getIsFetching = createSelector(
+    getNetworkState,
+    ({ isFetching }) => isFetching,
+  );
 
-export const getError = createSelector(
-  getNetworkState,
-  ({ error }) => error,
-);
+  const getError = createSelector(
+    getNetworkState,
+    ({ error }) => error,
+  );
+
+  return {
+    getNetworkState,
+    getIsFetching,
+    getError,
+  };
+};

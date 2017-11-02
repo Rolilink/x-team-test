@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cases clearSort should set the sort subtree to an empty object 1`] = `
+Object {
+  "items": Array [],
+  "sort": Object {},
+}
+`;
+
+exports[`cases setField should add the specified record to the sort subtree 1`] = `
+Object {
+  "items": Array [],
+  "sort": Object {
+    "name": "asc",
+    "size": "asc",
+  },
+}
+`;
+
+exports[`cases setField should update the specified record from the sort subtree if it exist 1`] = `
+Object {
+  "items": Array [],
+  "sort": Object {
+    "name": "desc",
+    "size": "asc",
+  },
+}
+`;
+
+exports[`cases unsetField should remove the specified record from the sort subtree 1`] = `
+Object {
+  "items": Array [],
+  "sort": Object {
+    "name": "asc",
+  },
+}
+`;
+
+exports[`selectors getField should return the sort status of the key passed as param 1`] = `"desc"`;
+
+exports[`selectors getFields should return all the sorts as an array 1`] = `
+Array [
+  Object {
+    "size": "asc",
+  },
+  Object {
+    "name": "asc",
+  },
+]
+`;
+
+exports[`sortingFactory should return default sort state 1`] = `Object {}`;
+
+exports[`withSorting should be able to initialize the sort state  1`] = `
+Object {
+  "items": Array [],
+  "sort": Object {
+    "name": "asc",
+  },
+}
+`;
+
+exports[`withSorting should enhance the state with sort state 1`] = `
+Object {
+  "items": Array [],
+  "sort": Object {},
+}
+`;

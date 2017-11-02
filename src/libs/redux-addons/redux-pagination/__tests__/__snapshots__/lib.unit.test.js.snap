@@ -76,3 +76,21 @@ Object {
   "page": 0,
 }
 `;
+
+exports[`selectors getBatchFromFirstPageToCurrent should return the current page from the pagination state 1`] = `
+Array [
+  1,
+  2,
+  3,
+  4,
+  5,
+]
+`;
+
+exports[`selectors getCurrentPage should return the current page from the pagination state 1`] = `1`;
+
+exports[`selectors getLimit should return the current limit from the pagination state 1`] = `5`;
+
+exports[`selectors getNextPage should return the next page from the pagination state 1`] = `2`;
+
+exports[`selectors getPreviousPage should return the previous page from the pagination state 1`] = `1`;
