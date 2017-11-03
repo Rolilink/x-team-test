@@ -6,5 +6,5 @@ export default function parseNDJSON(text) {
   data.splice(-1);
 
   // joins all the json records in a JSON string wrapped by an array and parse it
-  return JSON.parse(`{ "data": [${data.join(',')}] }`);
+  return JSON.parse(`{ "response": [${data.join(',')}] }`).response;
 }

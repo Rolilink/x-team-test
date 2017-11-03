@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services.Products.fetchProducts should call api with correct sort params when receiving sort params via options 1`] = `
+Object {
+  "limit": "10",
+  "skip": "0",
+  "sort": "size",
+}
+`;
+
+exports[`Services.Products.fetchProducts should call api with the correct pagination params when receiving pagination params via options 1`] = `
+Object {
+  "limit": 10,
+  "skip": 10,
+}
+`;
+
+exports[`Services.Products.fetchProducts should call fetch with /products pathname 1`] = `"/products"`;
+
+exports[`Services.Products.fetchProducts should call fetch with default pagination params 1`] = `
+Object {
+  "limit": 10,
+  "skip": 0,
+}
+`;
+
+exports[`Services.Products.fetchProducts should respond with page opt when response is success 1`] = `
+Object {
+  "page": 2,
+  "products": Array [
+    Object {
+      "date": "Thu Nov 02 2017 02:04:51 GMT-0500 (-05)",
+      "face": "(ง⌐□ل͜□)ง",
+      "id": 1,
+      "price": 601,
+      "size": 17,
+    },
+    Object {
+      "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+      "face": "(ღ˘⌣˘ღ)",
+      "id": 2,
+      "price": 642,
+      "size": 13,
+    },
+  ],
+}
+`;
+
+exports[`Services.Products.fetchProducts should respond with products when response is success 1`] = `
+Object {
+  "page": 1,
+  "products": Array [
+    Object {
+      "date": "Thu Nov 02 2017 02:04:51 GMT-0500 (-05)",
+      "face": "(ง⌐□ل͜□)ง",
+      "id": 1,
+      "price": 601,
+      "size": 17,
+    },
+    Object {
+      "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+      "face": "(ღ˘⌣˘ღ)",
+      "id": 2,
+      "price": 642,
+      "size": 13,
+    },
+  ],
+}
+`;
+
+exports[`Services.Products.fetchProducts should respond with sort opts when response is success 1`] = `
+Object {
+  "page": 1,
+  "products": Array [
+    Object {
+      "date": "Thu Nov 02 2017 02:04:51 GMT-0500 (-05)",
+      "face": "(ง⌐□ل͜□)ง",
+      "id": 1,
+      "price": 601,
+      "size": 17,
+    },
+    Object {
+      "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+      "face": "(ღ˘⌣˘ღ)",
+      "id": 2,
+      "price": 642,
+      "size": 13,
+    },
+  ],
+  "sort": "name",
+}
+`;
