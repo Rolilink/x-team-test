@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Products.Redux.Products.Cases addProductsToProductsById should add action.payload.products to productsById 1`] = `
+Object {
+  "network": Object {
+    "error": null,
+    "isFetching": true,
+  },
+  "pagination": Object {
+    "limit": 2,
+    "page": 1,
+  },
+  "productsById": Object {
+    "1": Object {
+      "date": "Thu Nov 02 2017 02:04:51 GMT-0500 (-05)",
+      "face": "(ง⌐□ل͜□)ง",
+      "id": 1,
+      "price": 601,
+      "size": 17,
+    },
+    "2": Object {
+      "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+      "face": "(ღ˘⌣˘ღ)",
+      "id": 2,
+      "price": 642,
+      "size": 13,
+    },
+    "3": Object {
+      "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+      "face": "(ღ˘⌣˘ღ)",
+      "id": 3,
+      "price": 642,
+      "size": 13,
+    },
+    "4": Object {
+      "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+      "face": "(ღ˘⌣˘ღ)",
+      "id": 4,
+      "price": 642,
+      "size": 13,
+    },
+  },
+  "sort": Object {
+    "name": "asc",
+  },
+}
+`;
+
+exports[`Products.Redux.Products.Cases onFetchSuccess should add action.payload.products to productsById 1`] = `
+Object {
+  "1": Object {
+    "date": "Thu Nov 02 2017 02:04:51 GMT-0500 (-05)",
+    "face": "(ง⌐□ل͜□)ง",
+    "id": 1,
+    "price": 601,
+    "size": 17,
+  },
+  "2": Object {
+    "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+    "face": "(ღ˘⌣˘ღ)",
+    "id": 2,
+    "price": 642,
+    "size": 13,
+  },
+  "3": Object {
+    "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+    "face": "(ღ˘⌣˘ღ)",
+    "id": 3,
+    "price": 642,
+    "size": 13,
+  },
+  "4": Object {
+    "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+    "face": "(ღ˘⌣˘ღ)",
+    "id": 4,
+    "price": 642,
+    "size": 13,
+  },
+}
+`;
+
+exports[`Products.Redux.Products.Cases onFetchSuccess should not change state if action.payload.sort is different from actual sort 1`] = `
+Object {
+  "network": Object {
+    "error": null,
+    "isFetching": true,
+  },
+  "pagination": Object {
+    "limit": 2,
+    "page": 1,
+  },
+  "productsById": Object {
+    "1": Object {
+      "date": "Thu Nov 02 2017 02:04:51 GMT-0500 (-05)",
+      "face": "(ง⌐□ل͜□)ง",
+      "id": 1,
+      "price": 601,
+      "size": 17,
+    },
+    "2": Object {
+      "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+      "face": "(ღ˘⌣˘ღ)",
+      "id": 2,
+      "price": 642,
+      "size": 13,
+    },
+  },
+  "sort": Object {
+    "name": "asc",
+  },
+}
+`;
+
+exports[`Products.Redux.Products.Cases onFetchSuccess should set network state to default 1`] = `
+Object {
+  "error": null,
+  "isFetching": false,
+}
+`;
+
+exports[`Products.Redux.Products.Cases onFetchSuccess should set page to action.payload.pagination.page 1`] = `2`;

@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Products.Redux.Reducers.Products makeReducer should be able to modify the reducer initial state 1`] = `
+Object {
+  "network": Object {
+    "error": null,
+    "isFetching": true,
+  },
+  "pagination": Object {
+    "limit": 10,
+    "page": 2,
+  },
+  "productsById": Object {
+    "1": Object {
+      "date": "Thu Nov 02 2017 02:04:51 GMT-0500 (-05)",
+      "face": "(ง⌐□ل͜□)ง",
+      "id": 1,
+      "price": 601,
+      "size": 17,
+    },
+  },
+  "sort": Object {
+    "name": "asc",
+  },
+}
+`;
+
+exports[`Products.Redux.Reducers.Products reducer should add products to productsById when receiving an FETCH_PRODUCTS_SUCCESS action 1`] = `
+Object {
+  "1": Object {
+    "date": "Thu Nov 02 2017 02:04:51 GMT-0500 (-05)",
+    "face": "(ง⌐□ل͜□)ง",
+    "id": 1,
+    "price": 601,
+    "size": 17,
+  },
+  "2": Object {
+    "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+    "face": "(ღ˘⌣˘ღ)",
+    "id": 2,
+    "price": 642,
+    "size": 13,
+  },
+  "3": Object {
+    "date": "Sat Oct 28 2017 05:16:46 GMT-0500 (-05)",
+    "face": "(ღ˘⌣˘ღ)",
+    "id": 3,
+    "price": 642,
+    "size": 13,
+  },
+}
+`;
+
+exports[`Products.Redux.Reducers.Products reducer should contain default network params 1`] = `
+Object {
+  "error": null,
+  "isFetching": false,
+}
+`;
+
+exports[`Products.Redux.Reducers.Products reducer should contain default pagination params 1`] = `
+Object {
+  "limit": 0,
+  "page": 0,
+}
+`;
+
+exports[`Products.Redux.Reducers.Products reducer should contain default productsById field 1`] = `Object {}`;
+
+exports[`Products.Redux.Reducers.Products reducer should contain default sort field 1`] = `Object {}`;
+
+exports[`Products.Redux.Reducers.Products reducer should not add products to productsById when receiving an FETCH_PRODUCTS_SUCCESS action that contains a different sort from current one 1`] = `
+Object {
+  "1": Object {
+    "date": "Thu Nov 02 2017 02:04:51 GMT-0500 (-05)",
+    "face": "(ง⌐□ل͜□)ง",
+    "id": 1,
+    "price": 601,
+    "size": 17,
+  },
+}
+`;
+
+exports[`Products.Redux.Reducers.Products reducer should set network to default state when receiving an FETCH_PRODUCTS_SUCCESS action 1`] = `
+Object {
+  "error": null,
+  "isFetching": false,
+}
+`;
